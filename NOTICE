@@ -1,0 +1,11 @@
+The new experimental kernels, graph orchestration, benchmark glue and tests
+are provided under the accompanying MIT license. This repository does not
+redistribute model checkpoints, MetaX SDKs, binary wheels or upstream model
+implementation source. Transformers, PyTorch, Triton, Qwen, vLLM and MetaX
+components remain subject to their respective upstream licenses.
+
+The recurrence oracles, normalization, reductions, cache and generation APIs
+are called from the installed Transformers implementation. Our graph wrapper
+preserves that computation, with strict comparison against it. Historical
+measurements identify exact dependency versions and separate accepted and
+rejected paths. MIT here does not relicense any external dependency or model.
