@@ -1,0 +1,180 @@
+{
+  "CPU_only": true,
+  "all3_shapes_independently_recomputed": true,
+  "source_verified_nonce_mapping": true,
+  "rows": [
+    {
+      "batch": 1,
+      "input_len": 13,
+      "output_len": 4,
+      "input_ids_sha256": "d69271dd7e02963e5a32e5b20e225665ca3d896ad0aa57f67971e2364c101496",
+      "candidate_complete_ids_sha256": "57d54956a49ad056d115996b484869af5855d6e5515cc0cb001be2ad3bdf4cee",
+      "native_complete_ids_sha256": "57d54956a49ad056d115996b484869af5855d6e5515cc0cb001be2ad3bdf4cee",
+      "complete_generated_ids_exact": true,
+      "steps": [
+        {
+          "step": 0,
+          "candidate_all_finite": true,
+          "candidate_nonfinite_count": 0,
+          "all_logits_exact": false,
+          "mismatch_count": 190501,
+          "same_prefix_rows": 1,
+          "same_prefix_max_abs_error": 0.125,
+          "row_mapping_one_to_one": true
+        },
+        {
+          "step": 1,
+          "candidate_all_finite": true,
+          "candidate_nonfinite_count": 0,
+          "all_logits_exact": false,
+          "mismatch_count": 149557,
+          "same_prefix_rows": 1,
+          "same_prefix_max_abs_error": 0.099609375,
+          "row_mapping_one_to_one": true
+        },
+        {
+          "step": 2,
+          "candidate_all_finite": true,
+          "candidate_nonfinite_count": 0,
+          "all_logits_exact": false,
+          "mismatch_count": 219960,
+          "same_prefix_rows": 1,
+          "same_prefix_max_abs_error": 0.3125,
+          "row_mapping_one_to_one": true
+        },
+        {
+          "step": 3,
+          "candidate_all_finite": true,
+          "candidate_nonfinite_count": 0,
+          "all_logits_exact": false,
+          "mismatch_count": 149081,
+          "same_prefix_rows": 1,
+          "same_prefix_max_abs_error": 0.09375,
+          "row_mapping_one_to_one": true
+        }
+      ],
+      "all_full_vocab_logits_exact": false,
+      "all_logits_finite": true,
+      "exact_sequence_count": 1,
+      "sequence_count": 1,
+      "equal_output_token_count": 4,
+      "output_token_count": 4
+    },
+    {
+      "batch": 3,
+      "input_len": 127,
+      "output_len": 4,
+      "input_ids_sha256": "22e10ad3a0e5f321aa6ade8037d34e358c44bd10e65b79b93d047c396b1a5992",
+      "candidate_complete_ids_sha256": "5b5646b8fda0271e7f1780f1b8ea1481a316acb1a7a32bf23d2e9cf92d72a311",
+      "native_complete_ids_sha256": "5b5646b8fda0271e7f1780f1b8ea1481a316acb1a7a32bf23d2e9cf92d72a311",
+      "complete_generated_ids_exact": true,
+      "steps": [
+        {
+          "step": 0,
+          "candidate_all_finite": true,
+          "candidate_nonfinite_count": 0,
+          "all_logits_exact": false,
+          "mismatch_count": 493377,
+          "same_prefix_rows": 3,
+          "same_prefix_max_abs_error": 0.125,
+          "row_mapping_one_to_one": true
+        },
+        {
+          "step": 1,
+          "candidate_all_finite": true,
+          "candidate_nonfinite_count": 0,
+          "all_logits_exact": false,
+          "mismatch_count": 565029,
+          "same_prefix_rows": 3,
+          "same_prefix_max_abs_error": 0.1875,
+          "row_mapping_one_to_one": true
+        },
+        {
+          "step": 2,
+          "candidate_all_finite": true,
+          "candidate_nonfinite_count": 0,
+          "all_logits_exact": false,
+          "mismatch_count": 504708,
+          "same_prefix_rows": 3,
+          "same_prefix_max_abs_error": 0.125,
+          "row_mapping_one_to_one": true
+        },
+        {
+          "step": 3,
+          "candidate_all_finite": true,
+          "candidate_nonfinite_count": 0,
+          "all_logits_exact": false,
+          "mismatch_count": 359870,
+          "same_prefix_rows": 3,
+          "same_prefix_max_abs_error": 0.125,
+          "row_mapping_one_to_one": true
+        }
+      ],
+      "all_full_vocab_logits_exact": false,
+      "all_logits_finite": true,
+      "exact_sequence_count": 3,
+      "sequence_count": 3,
+      "equal_output_token_count": 12,
+      "output_token_count": 12
+    },
+    {
+      "batch": 17,
+      "input_len": 32,
+      "output_len": 4,
+      "input_ids_sha256": "60410bb34a2a01ccdd6badb0e46e614e8b7b2b90853013662270a98f786c0bc3",
+      "candidate_complete_ids_sha256": "3ea8ceabbda240824c8304a28380d76ca032a33dea2dbc31a620bea639542054",
+      "native_complete_ids_sha256": "f255703a8d5cdb1c432a3db2c5287f02823c3fbf7b026ae33a740de735e28360",
+      "complete_generated_ids_exact": false,
+      "steps": [
+        {
+          "step": 0,
+          "candidate_all_finite": true,
+          "candidate_nonfinite_count": 0,
+          "all_logits_exact": false,
+          "mismatch_count": 2769272,
+          "same_prefix_rows": 17,
+          "same_prefix_max_abs_error": 0.1875,
+          "row_mapping_one_to_one": true
+        },
+        {
+          "step": 1,
+          "candidate_all_finite": true,
+          "candidate_nonfinite_count": 0,
+          "all_logits_exact": false,
+          "mismatch_count": 3270608,
+          "same_prefix_rows": 16,
+          "same_prefix_max_abs_error": 1.8125,
+          "row_mapping_one_to_one": true
+        },
+        {
+          "step": 2,
+          "candidate_all_finite": true,
+          "candidate_nonfinite_count": 0,
+          "all_logits_exact": false,
+          "mismatch_count": 3068753,
+          "same_prefix_rows": 16,
+          "same_prefix_max_abs_error": 0.375,
+          "row_mapping_one_to_one": true
+        },
+        {
+          "step": 3,
+          "candidate_all_finite": true,
+          "candidate_nonfinite_count": 0,
+          "all_logits_exact": false,
+          "mismatch_count": 3395218,
+          "same_prefix_rows": 16,
+          "same_prefix_max_abs_error": 0.55859375,
+          "row_mapping_one_to_one": true
+        }
+      ],
+      "all_full_vocab_logits_exact": false,
+      "all_logits_finite": true,
+      "exact_sequence_count": 16,
+      "sequence_count": 17,
+      "equal_output_token_count": 64,
+      "output_token_count": 68
+    }
+  ],
+  "no_qualified_throughput_runs": true,
+  "logical_cache_equality_not_evaluated_after_logit_rejection": true
+}
