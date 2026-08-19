@@ -1,0 +1,29 @@
+{
+  "config": {
+    "block": 1024,
+    "warps": 4,
+    "ms": [
+      1.093068790435791,
+      1.1160575866699218,
+      1.1164159774780273
+    ],
+    "exact": true
+  },
+  "versions": {
+    "torch": "2.8.0+metax3.3.0.2",
+    "triton": "3.0.0+metax3.3.0.2",
+    "transformers": "5.3.0",
+    "accelerate": "1.15.0",
+    "huggingface_hub": "1.33.0",
+    "flash-linear-attention": "0.1+metax3.3.0.2torch2.8",
+    "flash-attn": "2.6.3+metax3.3.0.2torch2.8",
+    "causal-conv1d": "1.5.0.post8+metax3.3.0.2torch2.8"
+  },
+  "batches": [
+    1,
+    48
+  ],
+  "input_len": 128,
+  "output_len": 128,
+  "measurement_scope": "CPU tokenization -> blocking H2D -> native freshcache prefill+128token generation -> D2H -> batch_decode. No HTTP/queue/network. Excludes model loading, correctness, first warmup, hash calculation; those logged separately. No HTTP/serving claim. Fixed config before all model timings, three paired repetitions per case."
+}

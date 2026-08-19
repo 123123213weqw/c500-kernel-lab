@@ -1,0 +1,56 @@
+[
+  {
+    "path": "strategies/segmented/exact_gdn.py",
+    "source_artifact": "opt-qwen27b/reproduce/segmented-source/exact_gdn.py",
+    "original_sha256": "c7b0949e884633201f0c905a230d6c4afaf688b0d8834ff33caf9442ec96294c",
+    "adaptation": "none"
+  },
+  {
+    "path": "strategies/segmented/graph_engine.py",
+    "source_artifact": "opt-qwen27b/reproduce/segmented-source/graph_engine.py",
+    "original_sha256": "dbe5c1f9ead1b02d47bd07ec190409b20cf0d0dbfd695279b7833a9194fc3fd8",
+    "adaptation": "none"
+  },
+  {
+    "path": "strategies/segmented/segmented_graph_engine.py",
+    "source_artifact": "opt-qwen27b/reproduce/segmented-source/segmented_graph_engine.py",
+    "original_sha256": "31bd3d6d156cbd32cda00d426ca7bb004a038271a03031a9c71b70b0f34f2358",
+    "adaptation": "none"
+  },
+  {
+    "path": "strategies/segmented/FROZEN_CONFIG.json",
+    "source_artifact": "opt-qwen27b/reproduce/segmented-source/FROZEN_CONFIG.json",
+    "original_sha256": "2bbed52d8b1e452c41178ddb53c6cc57022896582dcddcacb41f44e823443043",
+    "adaptation": "none"
+  },
+  {
+    "path": "strategies/generic/exact_gdn.py",
+    "source_artifact": "opt-qwen27b/reproduce/generic-gdn-source/exact_gdn.py",
+    "original_sha256": "aca7bfd5c0e31ab503446045c3271c5167523d430023a2402634717852abb0b3",
+    "adaptation": "none"
+  },
+  {
+    "path": "strategies/generic/FROZEN_CONFIG.json",
+    "source_artifact": "opt-qwen27b/reproduce/generic-gdn-source/FROZEN_CONFIG.json",
+    "original_sha256": "5e41b4456701624c44ff4fd697be4f4ec8678b82781292f6d94f3685ed337967",
+    "adaptation": "none"
+  },
+  {
+    "path": "experimental/direct_state/exact_gdn_inplace.py",
+    "source_artifact": "previous-experiment/exact_gdn_inplace.py",
+    "original_sha256": "566d08c16cf052da82a400693c27df7cc624e553ffe09bdaa9db209689ac3e68",
+    "adaptation": "none"
+  },
+  {
+    "path": "experimental/direct_state/direct_state_graph_engine.py",
+    "source_artifact": "previous-experiment/direct_state_graph_engine.py",
+    "original_sha256": "7cd5fbf03da5b11710198c0aeea67cf7a21eb38f8911a34a94ef854f539997e8",
+    "adaptation": "none"
+  },
+  {
+    "path": "benchmarks/e2e.py",
+    "source_artifact": "opt-qwen27b/reproduce/segmented-source/segmented_graph_study.py",
+    "original_sha256": "43b5e8dfc9bfd52cf3196741d9c289c682c8341317abfbc4d57f8ca8bc1a7d7b",
+    "adaptation": "portable model/workdir/deadline/strategy; runtime pinned; dispatch admission; no expired paths"
+  }
+]
