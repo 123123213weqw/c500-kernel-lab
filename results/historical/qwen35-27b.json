@@ -1,0 +1,953 @@
+{
+  "generated_utc": "2026-10-30T02:34:36.839813+00:00",
+  "scope": "Qwen/Qwen3.5-27B text only; BF16 weights/native FP32 recurrent state; sole allocated MetaX C500; input128/output128; three repetitions",
+  "hard_deadline_utc": "2026-10-30T02:28:45Z",
+  "studies": [
+    {
+      "folder": "study_v3",
+      "mode": "exact_gdn",
+      "label": "精确 GDN 局部融合",
+      "holdouts_all_pass": true,
+      "holdouts": [
+        {
+          "batch": 1,
+          "input_len": 13,
+          "output_len": 4,
+          "logits_finite": true,
+          "full_vocab_logits_exact": true,
+          "complete_ids_exact": true,
+          "cache_exact": {
+            "key_cache": true,
+            "value_cache": true,
+            "conv_states": true,
+            "recurrent_states": true
+          }
+        },
+        {
+          "batch": 3,
+          "input_len": 127,
+          "output_len": 4,
+          "logits_finite": true,
+          "full_vocab_logits_exact": true,
+          "complete_ids_exact": true,
+          "cache_exact": {
+            "key_cache": true,
+            "value_cache": true,
+            "conv_states": true,
+            "recurrent_states": true
+          }
+        },
+        {
+          "batch": 17,
+          "input_len": 32,
+          "output_len": 4,
+          "logits_finite": true,
+          "full_vocab_logits_exact": true,
+          "complete_ids_exact": true,
+          "cache_exact": {
+            "key_cache": true,
+            "value_cache": true,
+            "conv_states": true,
+            "recurrent_states": true
+          }
+        }
+      ],
+      "cases": [
+        {
+          "batch": 1,
+          "planned": true,
+          "native_repeats": 3,
+          "candidate_repeats": 3,
+          "qualified": true,
+          "all128_warm_logits_finite_both_modes": true,
+          "native": {
+            "median_tps": 9.955904271851715,
+            "min_tps": 9.952745708360698,
+            "max_tps": 10.073509070089154,
+            "median_latency_s": 12.856692521832883,
+            "peak_allocated_gib": 51.2183256149292,
+            "peak_reserved_gib": 51.251953125,
+            "input_sha256": "314643d89736973523e3c020311f5ec9bbe8108bb96fe42980ac8d776ed4edfa",
+            "complete_output_sha256": "bb66633a7a54c873b033017834146b729f546c82c0bae57fd06e00f5dd34cac1"
+          },
+          "candidate": {
+            "median_tps": 12.054412413237827,
+            "min_tps": 12.02942254295707,
+            "max_tps": 12.196384516514135,
+            "median_latency_s": 10.618518399074674,
+            "peak_allocated_gib": 51.2183256149292,
+            "peak_reserved_gib": 51.251953125,
+            "input_sha256": "314643d89736973523e3c020311f5ec9bbe8108bb96fe42980ac8d776ed4edfa",
+            "complete_output_sha256": "bb66633a7a54c873b033017834146b729f546c82c0bae57fd06e00f5dd34cac1"
+          },
+          "speedup": 1.2107802650653456,
+          "gain_percent": 21.078026506534563
+        },
+        {
+          "batch": 8,
+          "planned": false,
+          "native_repeats": 0,
+          "candidate_repeats": 0,
+          "qualified": false,
+          "all128_warm_logits_finite_both_modes": false
+        },
+        {
+          "batch": 48,
+          "planned": true,
+          "native_repeats": 3,
+          "candidate_repeats": 3,
+          "qualified": true,
+          "all128_warm_logits_finite_both_modes": true,
+          "native": {
+            "median_tps": 118.32070983961498,
+            "min_tps": 117.55958812672493,
+            "max_tps": 118.33029946349235,
+            "median_latency_s": 51.92666616290808,
+            "peak_allocated_gib": 60.60002851486206,
+            "peak_reserved_gib": 61.62109375,
+            "input_sha256": "f271a1f3eade240be6228ba9392b60f0576d2e53e8e0b178ea14eca58fcb709f",
+            "complete_output_sha256": "1a1ac3cd959eed6cb3cf390746e46e59e2cbe0efaf21a4ed9ad25ac851a09dcd"
+          },
+          "candidate": {
+            "median_tps": 115.02678570294637,
+            "min_tps": 114.54140311009989,
+            "max_tps": 115.14933953028309,
+            "median_latency_s": 53.41364589519799,
+            "peak_allocated_gib": 60.60002851486206,
+            "peak_reserved_gib": 61.62109375,
+            "input_sha256": "f271a1f3eade240be6228ba9392b60f0576d2e53e8e0b178ea14eca58fcb709f",
+            "complete_output_sha256": "1a1ac3cd959eed6cb3cf390746e46e59e2cbe0efaf21a4ed9ad25ac851a09dcd"
+          },
+          "speedup": 0.9721610515933047,
+          "gain_percent": -2.783894840669532
+        }
+      ],
+      "failures": [],
+      "metadata": {
+        "model": "Qwen/Qwen3.5-27B",
+        "parameters_loaded": 27356728560,
+        "dtype": "BF16 weights, native FP32 recurrent state",
+        "backend": "native HF eager attention/vendor conv, paired native Torch GDN vs decode-only exact partial fusion; original normalization+reductions retained",
+        "frozen_config": {
+          "block": 1024,
+          "warps": 4,
+          "ms": [
+            1.093068790435791,
+            1.1160575866699218,
+            1.1164159774780273
+          ],
+          "exact": true
+        },
+        "device": "only allocated C500 cuda:0",
+        "loading_info": {
+          "missing_keys": "set()",
+          "unexpected_keys": "set()",
+          "mismatched_keys": "set()",
+          "error_msgs": []
+        },
+        "load_and_tokenizer_seconds": 32.87639832962304,
+        "worker_before_load_seconds": 8.10389347281307,
+        "versions": {
+          "torch": "2.8.0+metax3.3.0.2",
+          "triton": "3.0.0+metax3.3.0.2",
+          "transformers": "5.3.0",
+          "accelerate": "1.15.0",
+          "huggingface_hub": "1.33.0",
+          "flash-linear-attention": "0.1+metax3.3.0.2torch2.8",
+          "flash-attn": "2.6.3+metax3.3.0.2torch2.8",
+          "causal-conv1d": "1.5.0.post8+metax3.3.0.2torch2.8"
+        },
+        "generation_config": {
+          "max_length": null,
+          "max_new_tokens": null,
+          "min_length": null,
+          "min_new_tokens": null,
+          "early_stopping": null,
+          "max_time": null,
+          "stop_strings": null,
+          "do_sample": true,
+          "num_beams": null,
+          "use_cache": null,
+          "cache_implementation": null,
+          "cache_config": null,
+          "temperature": 0.6,
+          "top_k": 20,
+          "top_p": 0.95,
+          "min_p": null,
+          "top_h": null,
+          "typical_p": null,
+          "epsilon_cutoff": null,
+          "eta_cutoff": null,
+          "repetition_penalty": null,
+          "encoder_repetition_penalty": null,
+          "length_penalty": null,
+          "no_repeat_ngram_size": null,
+          "bad_words_ids": null,
+          "renormalize_logits": null,
+          "forced_bos_token_id": null,
+          "forced_eos_token_id": null,
+          "remove_invalid_values": null,
+          "exponential_decay_length_penalty": null,
+          "suppress_tokens": null,
+          "begin_suppress_tokens": null,
+          "sequence_bias": null,
+          "token_healing": null,
+          "guidance_scale": null,
+          "watermarking_config": null,
+          "num_return_sequences": null,
+          "output_attentions": null,
+          "output_hidden_states": null,
+          "output_scores": null,
+          "output_logits": null,
+          "return_dict_in_generate": null,
+          "pad_token_id": 248044,
+          "bos_token_id": 248044,
+          "eos_token_id": [
+            248046,
+            248044
+          ],
+          "encoder_no_repeat_ngram_size": null,
+          "decoder_start_token_id": null,
+          "is_assistant": null,
+          "num_assistant_tokens": null,
+          "num_assistant_tokens_schedule": null,
+          "assistant_confidence_threshold": null,
+          "prompt_lookup_num_tokens": null,
+          "max_matching_ngram_size": null,
+          "assistant_early_exit": null,
+          "assistant_lookbehind": null,
+          "target_lookbehind": null,
+          "compile_config": null,
+          "disable_compile": null,
+          "low_memory": null,
+          "penalty_alpha": null,
+          "dola_layers": null,
+          "diversity_penalty": null,
+          "num_beam_groups": null,
+          "constraints": null,
+          "force_words_ids": null,
+          "prefill_chunk_size": null,
+          "_from_model_config": null,
+          "transformers_version": "5.3.0"
+        },
+        "input_len": 128,
+        "output_len": 128,
+        "batches": [
+          1,
+          48
+        ],
+        "repeats": 3,
+        "deadline_utc": "2026-10-30T02:28:45Z",
+        "measurement": "CPU tokenization -> blocking H2D -> native freshcache prefill+128token generation -> D2H -> batch_decode. No HTTP/queue/network. Excludes model loading, correctness, first warmup, hash calculation; those logged separately. No HTTP/serving claim. Fixed config before all model timings, three paired repetitions per case."
+      }
+    },
+    {
+      "folder": "segmented_graph",
+      "mode": "segmented_graph",
+      "label": "全程8步分段图 + 精确GDN融合",
+      "holdouts_all_pass": true,
+      "holdouts": [
+        {
+          "batch": 1,
+          "input_len": 13,
+          "output_len": 4,
+          "logits_finite": true,
+          "full_vocab_prefill_logits_exact": true,
+          "full_vocab_decode_logits_exact": true,
+          "complete_ids_exact": true,
+          "cache_exact": {
+            "key_cache": true,
+            "value_cache": true,
+            "conv_states": true,
+            "recurrent_states": true
+          },
+          "warm_capture_gate_s": 2.933416472747922,
+          "fresh_request_probes": [
+            {
+              "probe": "B",
+              "complete_ids_exact": true,
+              "full_vocab_logits_exact": true,
+              "all_caches_exact": true,
+              "all_logits_finite": true
+            },
+            {
+              "probe": "A_again",
+              "complete_ids_exact": true,
+              "full_vocab_logits_exact": true,
+              "all_caches_exact": true,
+              "all_logits_finite": true
+            }
+          ]
+        },
+        {
+          "batch": 3,
+          "input_len": 127,
+          "output_len": 4,
+          "logits_finite": true,
+          "full_vocab_prefill_logits_exact": true,
+          "full_vocab_decode_logits_exact": true,
+          "complete_ids_exact": true,
+          "cache_exact": {
+            "key_cache": true,
+            "value_cache": true,
+            "conv_states": true,
+            "recurrent_states": true
+          },
+          "warm_capture_gate_s": 2.620704968459904,
+          "fresh_request_probes": [
+            {
+              "probe": "B",
+              "complete_ids_exact": true,
+              "full_vocab_logits_exact": true,
+              "all_caches_exact": true,
+              "all_logits_finite": true
+            },
+            {
+              "probe": "A_again",
+              "complete_ids_exact": true,
+              "full_vocab_logits_exact": true,
+              "all_caches_exact": true,
+              "all_logits_finite": true
+            }
+          ]
+        },
+        {
+          "batch": 17,
+          "input_len": 32,
+          "output_len": 4,
+          "logits_finite": true,
+          "full_vocab_prefill_logits_exact": true,
+          "full_vocab_decode_logits_exact": true,
+          "complete_ids_exact": true,
+          "cache_exact": {
+            "key_cache": true,
+            "value_cache": true,
+            "conv_states": true,
+            "recurrent_states": true
+          },
+          "warm_capture_gate_s": 3.2926434641703963,
+          "fresh_request_probes": [
+            {
+              "probe": "B",
+              "complete_ids_exact": true,
+              "full_vocab_logits_exact": true,
+              "all_caches_exact": true,
+              "all_logits_finite": true
+            },
+            {
+              "probe": "A_again",
+              "complete_ids_exact": true,
+              "full_vocab_logits_exact": true,
+              "all_caches_exact": true,
+              "all_logits_finite": true
+            }
+          ]
+        }
+      ],
+      "cases": [
+        {
+          "batch": 1,
+          "planned": true,
+          "native_repeats": 3,
+          "candidate_repeats": 3,
+          "qualified": true,
+          "all128_warm_logits_finite_both_modes": true,
+          "native": {
+            "median_tps": 9.372827301240019,
+            "min_tps": 8.453429883241665,
+            "max_tps": 9.535947407004562,
+            "median_latency_s": 13.656498288735747,
+            "peak_allocated_gib": 51.40582990646362,
+            "peak_reserved_gib": 51.486328125,
+            "input_sha256": "314643d89736973523e3c020311f5ec9bbe8108bb96fe42980ac8d776ed4edfa",
+            "complete_output_sha256": "bb66633a7a54c873b033017834146b729f546c82c0bae57fd06e00f5dd34cac1"
+          },
+          "candidate": {
+            "median_tps": 16.421466213042272,
+            "min_tps": 16.394188468529023,
+            "max_tps": 16.423648340083446,
+            "median_latency_s": 7.794675477780402,
+            "peak_allocated_gib": 51.428789138793945,
+            "peak_reserved_gib": 51.56640625,
+            "input_sha256": "314643d89736973523e3c020311f5ec9bbe8108bb96fe42980ac8d776ed4edfa",
+            "complete_output_sha256": "bb66633a7a54c873b033017834146b729f546c82c0bae57fd06e00f5dd34cac1"
+          },
+          "speedup": 1.7520291034136224,
+          "gain_percent": 75.20291034136224
+        },
+        {
+          "batch": 8,
+          "planned": true,
+          "native_repeats": 3,
+          "candidate_repeats": 3,
+          "qualified": true,
+          "all128_warm_logits_finite_both_modes": true,
+          "native": {
+            "median_tps": 51.184009288244894,
+            "min_tps": 51.15791079301501,
+            "max_tps": 51.28365464189757,
+            "median_latency_s": 20.006248323246837,
+            "peak_allocated_gib": 52.865604400634766,
+            "peak_reserved_gib": 52.994140625,
+            "input_sha256": "bd48693f9a9f55159ed637bb148bfccbbb2d2f2aa443bc092dd49afab565f37c",
+            "complete_output_sha256": "eab9e5be9094e5ce2f0cbece956452634e562ba86c87d41f49b0eb444c996ab9"
+          },
+          "candidate": {
+            "median_tps": 97.50488926055273,
+            "min_tps": 97.25632965395967,
+            "max_tps": 97.5583327445365,
+            "median_latency_s": 10.502037464641035,
+            "peak_allocated_gib": 52.610872745513916,
+            "peak_reserved_gib": 53.099609375,
+            "input_sha256": "bd48693f9a9f55159ed637bb148bfccbbb2d2f2aa443bc092dd49afab565f37c",
+            "complete_output_sha256": "eab9e5be9094e5ce2f0cbece956452634e562ba86c87d41f49b0eb444c996ab9"
+          },
+          "speedup": 1.90498733132549,
+          "gain_percent": 90.49873313254899
+        },
+        {
+          "batch": 48,
+          "planned": true,
+          "native_repeats": 3,
+          "candidate_repeats": 3,
+          "qualified": true,
+          "all128_warm_logits_finite_both_modes": true,
+          "native": {
+            "median_tps": 112.502376211639,
+            "min_tps": 112.3406316159562,
+            "max_tps": 112.61008297718008,
+            "median_latency_s": 54.61217982135713,
+            "peak_allocated_gib": 60.912532806396484,
+            "peak_reserved_gib": 62.01171875,
+            "input_sha256": "f271a1f3eade240be6228ba9392b60f0576d2e53e8e0b178ea14eca58fcb709f",
+            "complete_output_sha256": "1a1ac3cd959eed6cb3cf390746e46e59e2cbe0efaf21a4ed9ad25ac851a09dcd"
+          },
+          "candidate": {
+            "median_tps": 222.79855010141756,
+            "min_tps": 221.82941004375104,
+            "max_tps": 222.918662935408,
+            "median_latency_s": 27.57648107316345,
+            "peak_allocated_gib": 59.07103109359741,
+            "peak_reserved_gib": 61.78515625,
+            "input_sha256": "f271a1f3eade240be6228ba9392b60f0576d2e53e8e0b178ea14eca58fcb709f",
+            "complete_output_sha256": "1a1ac3cd959eed6cb3cf390746e46e59e2cbe0efaf21a4ed9ad25ac851a09dcd"
+          },
+          "speedup": 1.9803897269004331,
+          "gain_percent": 98.03897269004331
+        }
+      ],
+      "failures": [],
+      "metadata": {
+        "model": "Qwen/Qwen3.5-27B",
+        "parameters_loaded": 27356728560,
+        "dtype": "BF16 weights, native FP32 recurrent state",
+        "backend": "native HF eager attention/vendor conv, paired native Torch GDN vs decode-only exact partial fusion; original normalization+reductions retained",
+        "frozen_config": {
+          "block": 1024,
+          "warps": 4,
+          "ms": [
+            0.4793087959289551,
+            0.49397759437561034,
+            0.4967167854309082
+          ],
+          "exact": true
+        },
+        "graph_strategy": "entire native128token prefill graph plus8-step decode graph segments (shared pool, sequential order); exact partial fusion/inplace state copy; all prefix state recomputed every replay; exact FP32 zeros allocated on device instead of native CPU->GPU zero copy; unpadded-known mask branch host guard; A/B/A request-leak probes; fixed-shape official eager masks precomputed at startup; full-vocab finite every timed step",
+        "device": "only allocated C500 cuda:0",
+        "loading_info": {
+          "missing_keys": "set()",
+          "unexpected_keys": "set()",
+          "mismatched_keys": "set()",
+          "error_msgs": []
+        },
+        "load_and_tokenizer_seconds": 33.164655103348196,
+        "worker_before_load_seconds": 8.105056371539831,
+        "versions": {
+          "torch": "2.8.0+metax3.3.0.2",
+          "triton": "3.0.0+metax3.3.0.2",
+          "transformers": "5.3.0",
+          "accelerate": "1.15.0",
+          "huggingface_hub": "1.33.0",
+          "flash-linear-attention": "0.1+metax3.3.0.2torch2.8",
+          "flash-attn": "2.6.3+metax3.3.0.2torch2.8",
+          "causal-conv1d": "1.5.0.post8+metax3.3.0.2torch2.8"
+        },
+        "generation_config": {
+          "max_length": null,
+          "max_new_tokens": null,
+          "min_length": null,
+          "min_new_tokens": null,
+          "early_stopping": null,
+          "max_time": null,
+          "stop_strings": null,
+          "do_sample": true,
+          "num_beams": null,
+          "use_cache": null,
+          "cache_implementation": null,
+          "cache_config": null,
+          "temperature": 0.6,
+          "top_k": 20,
+          "top_p": 0.95,
+          "min_p": null,
+          "top_h": null,
+          "typical_p": null,
+          "epsilon_cutoff": null,
+          "eta_cutoff": null,
+          "repetition_penalty": null,
+          "encoder_repetition_penalty": null,
+          "length_penalty": null,
+          "no_repeat_ngram_size": null,
+          "bad_words_ids": null,
+          "renormalize_logits": null,
+          "forced_bos_token_id": null,
+          "forced_eos_token_id": null,
+          "remove_invalid_values": null,
+          "exponential_decay_length_penalty": null,
+          "suppress_tokens": null,
+          "begin_suppress_tokens": null,
+          "sequence_bias": null,
+          "token_healing": null,
+          "guidance_scale": null,
+          "watermarking_config": null,
+          "num_return_sequences": null,
+          "output_attentions": null,
+          "output_hidden_states": null,
+          "output_scores": null,
+          "output_logits": null,
+          "return_dict_in_generate": null,
+          "pad_token_id": 248044,
+          "bos_token_id": 248044,
+          "eos_token_id": [
+            248046,
+            248044
+          ],
+          "encoder_no_repeat_ngram_size": null,
+          "decoder_start_token_id": null,
+          "is_assistant": null,
+          "num_assistant_tokens": null,
+          "num_assistant_tokens_schedule": null,
+          "assistant_confidence_threshold": null,
+          "prompt_lookup_num_tokens": null,
+          "max_matching_ngram_size": null,
+          "assistant_early_exit": null,
+          "assistant_lookbehind": null,
+          "target_lookbehind": null,
+          "compile_config": null,
+          "disable_compile": null,
+          "low_memory": null,
+          "penalty_alpha": null,
+          "dola_layers": null,
+          "diversity_penalty": null,
+          "num_beam_groups": null,
+          "constraints": null,
+          "force_words_ids": null,
+          "prefill_chunk_size": null,
+          "_from_model_config": null,
+          "transformers_version": "5.3.0"
+        },
+        "input_len": 128,
+        "output_len": 128,
+        "batches": [
+          1,
+          8,
+          48
+        ],
+        "repeats": 3,
+        "deadline_utc": "2026-10-30T02:28:45Z",
+        "measurement": "CPU tokenization -> blocking H2D -> native freshcache prefill+128token generation -> D2H -> batch_decode. No HTTP/queue/network. Excludes model loading, correctness, first warmup, hash calculation; those logged separately. No HTTP/serving claim. Fixed config before all model timings, three paired repetitions per case."
+      }
+    },
+    {
+      "folder": "direct_state_graph",
+      "mode": "direct_state_graph",
+      "label": "分段图 + 直接状态写入（仅预登记B48）",
+      "holdouts_all_pass": false,
+      "holdouts": [],
+      "cases": [
+        {
+          "batch": 1,
+          "planned": false,
+          "native_repeats": 0,
+          "candidate_repeats": 0,
+          "qualified": false,
+          "all128_warm_logits_finite_both_modes": false
+        },
+        {
+          "batch": 8,
+          "planned": false,
+          "native_repeats": 0,
+          "candidate_repeats": 0,
+          "qualified": false,
+          "all128_warm_logits_finite_both_modes": false
+        },
+        {
+          "batch": 48,
+          "planned": true,
+          "native_repeats": 0,
+          "candidate_repeats": 0,
+          "qualified": false,
+          "all128_warm_logits_finite_both_modes": false
+        }
+      ],
+      "failures": [],
+      "metadata": {}
+    }
+  ],
+  "cpu_audits": [
+    {
+      "study": "study_v3",
+      "rows_recomputed": 12,
+      "all_token_counts_stage_sums_and_input_output_hashes_pass": true
+    },
+    {
+      "study": "segmented_graph",
+      "rows_recomputed": 18,
+      "all_token_counts_stage_sums_and_input_output_hashes_pass": true
+    },
+    {
+      "study": "direct_state_graph",
+      "rows_recomputed": 0,
+      "all_token_counts_stage_sums_and_input_output_hashes_pass": true
+    }
+  ],
+  "gpu_jobs_serial_and_before_deadline": true,
+  "job_exit_records": [
+    {
+      "job": "001-micro",
+      "argv": [
+        "<PRIVATE_RUNS>/qwen27b-throughput-20261030/venv/bin/python",
+        "src/micro.py"
+      ],
+      "returncode": 0,
+      "reason": "exit",
+      "started_unix": 1793323986.051462,
+      "finished_unix": 1793324004.0697305,
+      "elapsed_s": 18.018268823623657,
+      "log": "<PRIVATE_RUNS>/qwen27b-opt-20261030/logs/001-micro.log"
+    },
+    {
+      "job": "002-study",
+      "argv": [
+        "<PRIVATE_RUNS>/qwen27b-throughput-20261030/venv/bin/python",
+        "src/study.py"
+      ],
+      "returncode": -15,
+      "reason": "exit",
+      "started_unix": 1793324022.0882988,
+      "finished_unix": 1793324198.270789,
+      "elapsed_s": 176.18249034881592,
+      "log": "<PRIVATE_RUNS>/qwen27b-opt-20261030/logs/002-study.log"
+    },
+    {
+      "job": "004-study-fixed",
+      "argv": [
+        "<PRIVATE_RUNS>/qwen27b-throughput-20261030/venv/bin/python",
+        "src/study.py"
+      ],
+      "returncode": 0,
+      "reason": "exit",
+      "started_unix": 1793324212.2871227,
+      "finished_unix": 1793324932.021797,
+      "elapsed_s": 719.7346744537354,
+      "log": "<PRIVATE_RUNS>/qwen27b-opt-20261030/logs/004-study-fixed.log"
+    },
+    {
+      "job": "005-graph",
+      "argv": [
+        "<PRIVATE_RUNS>/qwen27b-throughput-20261030/venv/bin/python",
+        "src/graph_study.py"
+      ],
+      "returncode": 1,
+      "reason": "exit",
+      "started_unix": 1793324932.0230455,
+      "finished_unix": 1793324985.076651,
+      "elapsed_s": 53.053605794906616,
+      "log": "<PRIVATE_RUNS>/qwen27b-opt-20261030/logs/005-graph.log"
+    },
+    {
+      "job": "005a-full-graph",
+      "argv": [
+        "<PRIVATE_RUNS>/qwen27b-throughput-20261030/venv/bin/python",
+        "src/full_graph_study.py"
+      ],
+      "returncode": -15,
+      "reason": "exit",
+      "started_unix": 1793324985.0776138,
+      "finished_unix": 1793325292.382747,
+      "elapsed_s": 307.30513310432434,
+      "log": "<PRIVATE_RUNS>/qwen27b-opt-20261030/logs/005a-full-graph.log"
+    },
+    {
+      "job": "005b-micro-v2",
+      "argv": [
+        "<PRIVATE_RUNS>/qwen27b-throughput-20261030/venv/bin/python",
+        "src/micro.py"
+      ],
+      "returncode": 0,
+      "reason": "exit",
+      "started_unix": 1793325292.3839383,
+      "finished_unix": 1793325312.4053187,
+      "elapsed_s": 20.02138066291809,
+      "log": "<PRIVATE_RUNS>/qwen27b-opt-20261030/logs/005b-micro-v2.log"
+    },
+    {
+      "job": "005b0-segmented",
+      "argv": [
+        "<PRIVATE_RUNS>/qwen27b-throughput-20261030/venv/bin/python",
+        "src/segmented_graph_study.py"
+      ],
+      "returncode": 0,
+      "reason": "exit",
+      "started_unix": 1793325312.4065204,
+      "finished_unix": 1793326092.03384,
+      "elapsed_s": 779.6273198127747,
+      "log": "<PRIVATE_RUNS>/qwen27b-opt-20261030/logs/005b0-segmented.log"
+    },
+    {
+      "job": "005b9-micro-v3",
+      "argv": [
+        "<PRIVATE_RUNS>/qwen27b-throughput-20261030/venv/bin/python",
+        "src/micro.py"
+      ],
+      "returncode": 0,
+      "reason": "exit",
+      "started_unix": 1793326384.3248892,
+      "finished_unix": 1793326405.3469608,
+      "elapsed_s": 21.022071599960327,
+      "log": "<PRIVATE_RUNS>/qwen27b-opt-20261030/logs/005b9-micro-v3.log"
+    },
+    {
+      "job": "005c-study-v2",
+      "argv": [
+        "<PRIVATE_RUNS>/qwen27b-throughput-20261030/venv/bin/python",
+        "src/study_v2.py"
+      ],
+      "returncode": -15,
+      "reason": "exit",
+      "started_unix": 1793326092.0351906,
+      "finished_unix": 1793326384.3236978,
+      "elapsed_s": 292.28850769996643,
+      "log": "<PRIVATE_RUNS>/qwen27b-opt-20261030/logs/005c-study-v2.log"
+    },
+    {
+      "job": "005c0-study-v3",
+      "argv": [
+        "<PRIVATE_RUNS>/qwen27b-throughput-20261030/venv/bin/python",
+        "src/study_v3.py"
+      ],
+      "returncode": 0,
+      "reason": "exit",
+      "started_unix": 1793326405.3479998,
+      "finished_unix": 1793326981.8097,
+      "elapsed_s": 576.4617004394531,
+      "log": "<PRIVATE_RUNS>/qwen27b-opt-20261030/logs/005c0-study-v3.log"
+    },
+    {
+      "job": "005c1-profile",
+      "argv": [
+        "<PRIVATE_RUNS>/qwen27b-throughput-20261030/venv/bin/python",
+        "src/profile_model.py"
+      ],
+      "returncode": 0,
+      "reason": "exit",
+      "started_unix": 1793326981.8107479,
+      "finished_unix": 1793327117.9022217,
+      "elapsed_s": 136.0914740562439,
+      "log": "<PRIVATE_RUNS>/qwen27b-opt-20261030/logs/005c1-profile.log"
+    },
+    {
+      "job": "005c2-nan",
+      "argv": [
+        "<PRIVATE_RUNS>/qwen27b-throughput-20261030/venv/bin/python",
+        "src/nan_fixture.py"
+      ],
+      "returncode": 0,
+      "reason": "exit",
+      "started_unix": 1793327117.9032736,
+      "finished_unix": 1793327166.9295049,
+      "elapsed_s": 49.02623152732849,
+      "log": "<PRIVATE_RUNS>/qwen27b-opt-20261030/logs/005c2-nan.log"
+    },
+    {
+      "job": "005d0-micro-inplace",
+      "argv": [
+        "<PRIVATE_RUNS>/qwen27b-throughput-20261030/venv/bin/python",
+        "src/micro_inplace.py"
+      ],
+      "returncode": 0,
+      "reason": "exit",
+      "started_unix": 1793327166.9306738,
+      "finished_unix": 1793327181.9396203,
+      "elapsed_s": 15.008947134017944,
+      "log": "<PRIVATE_RUNS>/qwen27b-opt-20261030/logs/005d0-micro-inplace.log"
+    },
+    {
+      "job": "005d1-highB-direct-state",
+      "argv": [
+        "<PRIVATE_RUNS>/qwen27b-throughput-20261030/venv/bin/python",
+        "src/direct_state_graph_study.py"
+      ],
+      "returncode": 1,
+      "reason": "exit",
+      "started_unix": 1793327181.9406388,
+      "finished_unix": 1793327182.942432,
+      "elapsed_s": 1.001793384552002,
+      "log": "<PRIVATE_RUNS>/qwen27b-opt-20261030/logs/005d1-highB-direct-state.log"
+    }
+  ],
+  "shutdown": {
+    "utc": "2026-10-30T02:27:54.631365+00:00",
+    "deadline_utc": "2026-10-30T02:28:45Z",
+    "deadline_unix": 1793327325.0,
+    "read_only_no_gpu_runtime_imports": true,
+    "no_signals_sent": true,
+    "expected_controller_pid": 164468,
+    "expected_controller_start_ticks": "440153684",
+    "controller_state": {
+      "pid": 164468,
+      "start_ticks": "440153684",
+      "started_utc": "2026-10-30T01:33:06.051023+00:00",
+      "deadline_unix": 1793327325.0,
+      "phase": "stopped",
+      "job": "005d1-highB-direct-state",
+      "argv": [
+        "<PRIVATE_RUNS>/qwen27b-throughput-20261030/venv/bin/python",
+        "src/direct_state_graph_study.py"
+      ],
+      "job_started_unix": 1793327181.9406388,
+      "job_timeout_s": 133.05938243865967,
+      "last_job": "005d1-highB-direct-state",
+      "last_returncode": 1,
+      "stopped_unix": 1793327216.960585,
+      "reason": "signal"
+    },
+    "controller_pid_current_identity": null,
+    "controller_identity_matches_record": true,
+    "controller_lock_free": true,
+    "controller_stopped_verified": true,
+    "remaining_owned_script_processes": [],
+    "common_locks_free": {
+      "overnight-20261030/controller.lock": true,
+      "qwen27b-throughput-20261030/controller.lock": true,
+      "qwen27b-throughput-20261030/gpu-work.lock": true,
+      "qwen27b-e2e-20261030/controller.lock": true
+    },
+    "gpu_samples": [
+      {
+        "utc": "2026-10-30T02:27:48.434412+00:00",
+        "returncode": 0,
+        "stdout": "mx-smi  version: 2.2.9\n\n=================== MetaX System Management Interface Log ===================\nTimestamp                                         : Fri Oct 30 02:27:48 2026\n\nAttached GPUs                                     : 1\n+---------------------------------------------------------------------------------+\n| MX-SMI 2.2.9                       Kernel Mode Driver Version: 3.8.30           |\n| MACA Version: 3.3.0.15             BIOS Version: 1.33.5.0                       |\n|------------------+-----------------+---------------------+----------------------|\n| Board       Name | GPU   Persist-M | Bus-id              | GPU-Util      sGPU-M |\n| Pwr:Usage/Cap    | Temp       Perf | Memory-Usage        | GPU-State            |\n|==================+=================+=====================+======================|\n| 0     MetaX C500 | 0           Off | 0000:12:00.0        | 0%          Disabled |\n| 55W / 350W       | 35C          P0 | 826/65536 MiB       | Available            |\n+------------------+-----------------+---------------------+----------------------+\n\n+---------------------------------------------------------------------------------+\n| Process:                                                                        |\n|  GPU                    PID         Process Name                 GPU Memory     |\n|                                                                  Usage(MiB)     |\n|=================================================================================|\n|  no process found                                                               |\n+---------------------------------------------------------------------------------+\n\nEnd of Log\n",
+        "stderr": "",
+        "allocated_device_output_valid": true,
+        "utilization_percent": 0,
+        "process_pids": [],
+        "idle": true
+      },
+      {
+        "utc": "2026-10-30T02:27:51.539195+00:00",
+        "returncode": 0,
+        "stdout": "mx-smi  version: 2.2.9\n\n=================== MetaX System Management Interface Log ===================\nTimestamp                                         : Fri Oct 30 02:27:51 2026\n\nAttached GPUs                                     : 1\n+---------------------------------------------------------------------------------+\n| MX-SMI 2.2.9                       Kernel Mode Driver Version: 3.8.30           |\n| MACA Version: 3.3.0.15             BIOS Version: 1.33.5.0                       |\n|------------------+-----------------+---------------------+----------------------|\n| Board       Name | GPU   Persist-M | Bus-id              | GPU-Util      sGPU-M |\n| Pwr:Usage/Cap    | Temp       Perf | Memory-Usage        | GPU-State            |\n|==================+=================+=====================+======================|\n| 0     MetaX C500 | 0           Off | 0000:12:00.0        | 0%          Disabled |\n| 56W / 350W       | 35C          P0 | 826/65536 MiB       | Available            |\n+------------------+-----------------+---------------------+----------------------+\n\n+---------------------------------------------------------------------------------+\n| Process:                                                                        |\n|  GPU                    PID         Process Name                 GPU Memory     |\n|                                                                  Usage(MiB)     |\n|=================================================================================|\n|  no process found                                                               |\n+---------------------------------------------------------------------------------+\n\nEnd of Log\n",
+        "stderr": "",
+        "allocated_device_output_valid": true,
+        "utilization_percent": 0,
+        "process_pids": [],
+        "idle": true
+      },
+      {
+        "utc": "2026-10-30T02:27:54.586737+00:00",
+        "returncode": 0,
+        "stdout": "mx-smi  version: 2.2.9\n\n=================== MetaX System Management Interface Log ===================\nTimestamp                                         : Fri Oct 30 02:27:54 2026\n\nAttached GPUs                                     : 1\n+---------------------------------------------------------------------------------+\n| MX-SMI 2.2.9                       Kernel Mode Driver Version: 3.8.30           |\n| MACA Version: 3.3.0.15             BIOS Version: 1.33.5.0                       |\n|------------------+-----------------+---------------------+----------------------|\n| Board       Name | GPU   Persist-M | Bus-id              | GPU-Util      sGPU-M |\n| Pwr:Usage/Cap    | Temp       Perf | Memory-Usage        | GPU-State            |\n|==================+=================+=====================+======================|\n| 0     MetaX C500 | 0           Off | 0000:12:00.0        | 0%          Disabled |\n| 57W / 350W       | 35C          P0 | 826/65536 MiB       | Available            |\n+------------------+-----------------+---------------------+----------------------+\n\n+---------------------------------------------------------------------------------+\n| Process:                                                                        |\n|  GPU                    PID         Process Name                 GPU Memory     |\n|                                                                  Usage(MiB)     |\n|=================================================================================|\n|  no process found                                                               |\n+---------------------------------------------------------------------------------+\n\nEnd of Log\n",
+        "stderr": "",
+        "allocated_device_output_valid": true,
+        "utilization_percent": 0,
+        "process_pids": [],
+        "idle": true
+      }
+    ],
+    "gpu_idle_verified": true
+  },
+  "fresh_weight_sha_pass": true,
+  "nan_diagnostic": null,
+  "profile": [
+    {
+      "dispatch_counts": {
+        "fused_row_major": 0,
+        "fused_col_major": 0,
+        "fused_permuted": 0,
+        "fallback": 0
+      },
+      "layout_counts": {},
+      "mode": "native",
+      "batch": 8,
+      "input_len": 128,
+      "output_len": 4,
+      "all_raw_full_vocab_finite": true,
+      "complete_ids_exact": true,
+      "profiled_model_forward_gpu_ms": [
+        1010.95703125,
+        184.15078735351562,
+        184.08831787109375,
+        186.2571563720703
+      ],
+      "scope": "PROFILER overhead, first forward is prefill; remaining3 are decode; NOT throughput/timed E2E results"
+    },
+    {
+      "dispatch_counts": {
+        "fused_row_major": 0,
+        "fused_col_major": 0,
+        "fused_permuted": 144,
+        "fallback": 0
+      },
+      "layout_counts": {
+        "(786432, 1, 6144, 48)": 144
+      },
+      "mode": "exact_gdn",
+      "batch": 8,
+      "input_len": 128,
+      "output_len": 4,
+      "all_raw_full_vocab_finite": true,
+      "complete_ids_exact": true,
+      "profiled_model_forward_gpu_ms": [
+        996.2034912109375,
+        679.7314453125,
+        151.1339569091797,
+        155.47418212890625
+      ],
+      "scope": "PROFILER overhead, first forward is prefill; remaining3 are decode; NOT throughput/timed E2E results"
+    }
+  ],
+  "zero_layout": {
+    "value_stride": [
+      786432,
+      16384,
+      1,
+      128
+    ],
+    "cpu_zero_to_other_stride": [
+      786432,
+      1,
+      6144,
+      48
+    ],
+    "device_zero_stride": [
+      786432,
+      16384,
+      128,
+      1
+    ],
+    "all_zeros_exact": true,
+    "scope": "layout/initialization diagnostic, not performance"
+  },
+  "nan_not_reproduced": {
+    "time": 1793327159.7521777,
+    "all_recorded_states_finite": true
+  },
+  "caveats": [
+    "Not HTTP serving or cold-start latency. Loading/compilation/capture/first warmup excluded; startup recorded.",
+    "Fixed-shape unpadded greedy text benchmark; not a generic multimodal inference server.",
+    "n=3 is not a statistical significance claim; sub-percent changes are not a demonstrated robust win.",
+    "All losses/failures/OOM/unattempted cells retained. No cross-model TPS comparison or per-cell mixed strategy.",
+    "Observed maximum among tested cases is not a physical absolute limit.",
+    "First stopped attempt retained references to two holdout cache lists, inflating memory; excluded from headline analysis; source/logs preserved."
+  ]
+}
