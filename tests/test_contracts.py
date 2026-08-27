@@ -14,7 +14,7 @@ class Contracts(unittest.TestCase):
  def fixture(self):
   rows=[]
   for mode,t in [('native',2.),('segmented',1.)]:
-   for i in range(3):rows.append(dict(batch=1,mode=mode,repeat=i,input_len=128,output_len=128,output_tokens=128,e2e_s=t,e2e_output_tokens_per_s=128/t,input_sha256='a',complete_output_sha256='b',all_ids_exact_vs_warmup=True,detokenized_text_exact_vs_warmup=True,dispatch_counts={'fallback':0,'fused_row_major':1},peak_allocated_gib=52))
+   for i in range(3):rows.append(dict(batch=1,mode=mode,repeat=i,input_len=128,output_len=128,output_tokens=128,e2e_s=t,e2e_output_tokens_per_s=128/t,input_sha256='a',complete_output_sha256='b',all_ids_exact_vs_warmup=True,detokenized_text_exact_vs_warmup=True,dispatch_counts={'fallback':0,'fused_row_major':0 if mode=='native' else 10},peak_allocated_gib=52))
   return rows,[gate(),gate(3,127),gate(17,32)],[dict(batch=1,mode=m,raw_full_vocab_finite_calls=128) for m in ['native','segmented']]
  def test_paired_ratio(self):
   self.assertEqual(q.summarize(*self.fixture(),'segmented')[0]['speedup'],2.)
@@ -24,6 +24,13 @@ class Contracts(unittest.TestCase):
  def test_fallback_rejected(self):
   r,g,w=self.fixture();r[-1]['dispatch_counts']['fallback']=1
   with self.assertRaises(AssertionError):q.summarize(r,g,w,'segmented')
+ def test_stale_dispatch_counter_rejected(self):
+  r,g,w=self.fixture()
+  for x in r:x['dispatch_counts']['fused_row_major']=10
+  with self.assertRaises(AssertionError):q.summarize(r,g,w,'segmented')
+ def test_different_repeat_indices_rejected(self):
+  r,g,w=self.fixture();r[-1]['repeat']=4
+  with self.assertRaises(AssertionError):q.summarize(r,g,w,'segmented')
  def test_different_inputs_rejected(self):
   r,g,w=self.fixture();r[-1]['input_sha256']='different'
   with self.assertRaises(AssertionError):q.summarize(r,g,w,'segmented')
@@ -32,8 +39,11 @@ class Contracts(unittest.TestCase):
   with self.assertRaises(AssertionError):q.summarize(r,g,w,'segmented')
  def test_timeout_owns_only_child_group(self):
   with tempfile.TemporaryDirectory() as d:
+   unrelated=subprocess.Popen([sys.executable,'-c','import time;time.sleep(30)'])
+   self.addCleanup(lambda: unrelated.terminate() if unrelated.poll() is None else None)
    p=subprocess.run([sys.executable,str(ROOT/'tools/launch_bounded.py'),'--deadline',str(time.time()+5.5),'--workdir',d,'--',sys.executable,'-c','import time;time.sleep(30)'],capture_output=True,text=True,timeout=10)
-   self.assertEqual(p.returncode,124,p.stderr)
+   self.assertEqual(p.returncode,124,p.stderr);self.assertIsNone(unrelated.poll())
+   unrelated.terminate();unrelated.wait(timeout=3)
    rec=json.loads((pathlib.Path(d)/'launches.jsonl').read_text());self.assertEqual(rec['reason'],'deadline')
  def test_expired_deadline_starts_nothing(self):
   with tempfile.TemporaryDirectory() as d:
