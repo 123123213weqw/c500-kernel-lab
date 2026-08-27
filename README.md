@@ -68,6 +68,15 @@ python tools/launch_bounded.py --deadline "$DEADLINE_UTC" --workdir "$RUN_DIR" -
 新硬件/新软件版本、padding、长上下文、多模态、并发请求等均需重新验证；
 不能从本矩阵外推。退出后须另行核验自身进程退出和 GPU 空闲。
 
+CPU 汇总（只在完整通过准入后产生配对统计）：
+
+```bash
+python3 tools/qualify.py --results "$RUN_DIR/results/segmented" --candidate segmented --output "$RUN_DIR/paired-summary.json"
+```
+
+计数器是 Python warmup/capture 的累计调用计数，不是每次 CUDA graph 重放的 host 调用计数。
+汇总还要求本次 graph setup 后计数相对本 batch 的 native 末轮确有增长，排除陈旧计数冒充生效。
+
 ## 当前仓库状态
 
 本地与授权远端均为私有工作仓库；没有创建 GitHub 远程、公开推送或上传权重。
