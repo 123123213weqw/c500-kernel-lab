@@ -38,7 +38,16 @@ def main():
  finally:
   if proc.poll() is None:os.killpg(proc.pid,signal.SIGKILL);proc.wait()
   for s,h in old.items():signal.signal(s,h)
- record={'argv':cmd,'pid':proc.pid,'deadline_unix':deadline,'started_unix':start,'finished_unix':time.time(),'returncode':proc.returncode,'reason':reason,'gpu_idle_requires_separate_read_only_audit':True}
+ # A child can exit while leaving descendants in its own process group.
+ # This group was created by us; never signal a caller-provided arbitrary PID.
+ leftover_group=False
+ try:
+  os.killpg(proc.pid,0);leftover_group=True;os.killpg(proc.pid,signal.SIGTERM)
+  time.sleep(.2)
+  try:os.killpg(proc.pid,signal.SIGKILL)
+  except ProcessLookupError:pass
+ except ProcessLookupError:pass
+ record={'leftover_own_group_cleanup':leftover_group,'argv':cmd,'pid':proc.pid,'deadline_unix':deadline,'started_unix':start,'finished_unix':time.time(),'returncode':proc.returncode,'reason':reason,'gpu_idle_requires_separate_read_only_audit':True}
  with (root/'launches.jsonl').open('a') as f:f.write(json.dumps(record)+'\n')
  return rc if reason=='exit' else 124
 if __name__=='__main__':raise SystemExit(main())
