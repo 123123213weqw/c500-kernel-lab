@@ -52,5 +52,29 @@
     "source_artifact": "opt-qwen27b/reproduce/segmented-source/segmented_graph_study.py",
     "original_sha256": "43b5e8dfc9bfd52cf3196741d9c289c682c8341317abfbc4d57f8ca8bc1a7d7b",
     "adaptation": "portable model/workdir/deadline/strategy; runtime pinned; dispatch admission; no expired paths"
+  },
+  {
+    "path": "diagnostics/long_graph_probe.py",
+    "source_artifact": "private-continuation-source/long_graph_probe.py",
+    "original_sha256": "d19659c4746169b08d38d518901542c0b551cee9c192045a618ab46586c85c8b",
+    "adaptation": "model/workdir parameters, no private deployment paths; isolated diagnostics only"
+  },
+  {
+    "path": "diagnostics/norm_fixture.py",
+    "source_artifact": "private-continuation-source/norm_fixture.py",
+    "original_sha256": "abc053f5cdcd56082a77e712f486a56c55bbad4c9b606259dde2e6e05cce7bc9",
+    "adaptation": "model/workdir parameters, no private deployment paths; isolated diagnostics only"
+  },
+  {
+    "path": "diagnostics/norm_probe_v2.py",
+    "source_artifact": "private-continuation-source/norm_probe_v2.py",
+    "original_sha256": "3a72945a1a894bed6d1a6f8b35844d3b7aaec9f81c255823ef0ef7da01cd2059",
+    "adaptation": "model/workdir parameters, no private deployment paths; isolated diagnostics only"
+  },
+  {
+    "path": "diagnostics/hf_reference.py",
+    "source_artifact": "vendorcompare-qwen27b/evidence/src/hf_reference.py",
+    "original_sha256": "c96b5596776d3942ebadc8f049b03ea521928222897c23bc848561ec52377013",
+    "adaptation": "portable model/workdir/deadline and per-run GPU lock; fresh evidence directory"
   }
 ]
