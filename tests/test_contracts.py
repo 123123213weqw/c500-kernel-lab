@@ -24,6 +24,20 @@ class Contracts(unittest.TestCase):
  def test_fallback_rejected(self):
   r,g,w=self.fixture();r[-1]['dispatch_counts']['fallback']=1
   with self.assertRaises(AssertionError):q.summarize(r,g,w,'segmented')
+ def test_regression_is_preserved(self):
+  r,g,w=self.fixture()
+  for x in r:
+   x['e2e_s']=1. if x['mode']=='native' else 2.;x['e2e_output_tokens_per_s']=128/x['e2e_s']
+  self.assertEqual(q.summarize(r,g,w,'segmented')[0]['speedup'],.5)
+ def test_missing_full_finite_warmup_rejected(self):
+  r,g,w=self.fixture();w[-1]['raw_full_vocab_finite_calls']=127
+  with self.assertRaises(AssertionError):q.summarize(r,g,w,'segmented')
+ def test_changed_actual_outputs_rejected(self):
+  r,g,w=self.fixture();r[-1]['all_ids_exact_vs_warmup']=False
+  with self.assertRaises(AssertionError):q.summarize(r,g,w,'segmented')
+ def test_nonfinite_timing_rejected(self):
+  r,g,w=self.fixture();r[-1]['e2e_s']=float('nan')
+  with self.assertRaises(AssertionError):q.summarize(r,g,w,'segmented')
  def test_stale_dispatch_counter_rejected(self):
   r,g,w=self.fixture()
   for x in r:x['dispatch_counts']['fused_row_major']=10
