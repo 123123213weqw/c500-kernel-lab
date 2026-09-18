@@ -14,7 +14,7 @@ ROOT=args.workdir.resolve();(ROOT/'results').mkdir(parents=True,exist_ok=True)
 MODEL=args.model.resolve();assert MODEL.is_dir()
 BATCHES=[int(z) for z in args.batches.split(',')]
 assert BATCHES and len(set(BATCHES))==len(BATCHES) and set(BATCHES)<={1,8,48}
-R=ROOT/'results'/args.strategy;R.mkdir(exist_ok=True)
+R=ROOT/'results'/args.strategy;R.mkdir()
 sys.path.insert(0,str(REPO/'strategies/segmented'))
 if args.strategy=='direct-state':
  sys.path.insert(0,str(REPO/'experimental/direct_state'))
@@ -153,7 +153,11 @@ try:
      dec=tok.batch_decode(cpu[:,128:],skip_special_tokens=False,clean_up_tokenization_spaces=False);t5=time.perf_counter()
      st={'e2e_s':t5-t0,'tokenize_s':t1-t0,'h2d_s':t2-t1,'generate_s':t3-t2,'d2h_s':t4-t3,'detokenize_s':t5-t4,'peak_allocated_gib':torch.cuda.max_memory_allocated()/2**30,'peak_reserved_gib':torch.cuda.max_memory_reserved()/2**30,'raw_full_vocab_finite_calls':int(fin.sum())}
      return cpu,dec,st,enc['input_ids']
-    y,tx,st,ci=graph_request(text);assert torch.equal(y,ref) and tx==decoded and digest(ci)==inputhash
+    y,tx,st,ci=graph_request(text)
+    if not (torch.equal(y,ref) and tx==decoded and digest(ci)==inputhash):
+     diff=(y!=ref).nonzero().tolist() if y.shape==ref.shape else []
+     dump(f'graph-first-request-rejection-b{b}.json',{'complete_ids_exact':torch.equal(y,ref),'text_exact':tx==decoded,'input_sha_exact':digest(ci)==inputhash,'first_mismatch_coordinate':diff[0] if diff else None,'actual_ids':y.tolist(),'native_ids':ref.tolist(),'all_raw_finite_calls':st['raw_full_vocab_finite_calls'],'qualified_performance':False})
+     raise AssertionError('Real128 first graph request rejected; see graph-first-request-rejection JSON')
     warmups.append({'mode':args.strategy,'batch':b,'complete_output_sha256':digest(y),'input_sha256':inputhash,**st});dump('warmups.json',warmups);del y,tx,ci
     for rep in range(3):
      if time.time()>DEADLINE-70:raise TimeoutError('Hard deadline')
