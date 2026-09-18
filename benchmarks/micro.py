@@ -7,6 +7,7 @@ a=p.parse_args();deadline=float(os.environ['C500_DEADLINE'])
 assert time.time()<deadline-60
 repo=pathlib.Path(__file__).resolve().parent.parent;root=a.workdir.resolve();(root/'results').mkdir(parents=True,exist_ok=True)
 lock=(root/'gpu-work.lock').open('a');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+assert not (root/'results'/('micro-'+a.strategy+'.json')).exists(),'Use a fresh isolated run; do not overwrite oracle evidence'
 folder='experimental/direct_state' if a.strategy=='direct-state' else 'strategies/'+a.strategy
 sys.path.insert(0,str(repo/folder))
 if a.strategy=='direct-state':import exact_gdn_inplace as e
