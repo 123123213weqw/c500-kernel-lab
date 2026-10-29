@@ -1,0 +1,23 @@
+{
+  "first_prefill_input_shape": [
+    13,
+    5120
+  ],
+  "compared_rows": 13,
+  "class": "MacaGemmaRMSNorm",
+  "actual_forward_method": "<bound method MacaGemmaRMSNorm.forward_oot of MacaGemmaRMSNorm()>",
+  "actual_internal_is_compiled": true,
+  "all_captured_internal_compile_flags": [
+    true,
+    true,
+    true,
+    true
+  ],
+  "embedding_input_exact_vs_native": true,
+  "norm_weights_sha256_exact": true,
+  "first_norm_output_exact_vs_native": true,
+  "norm_output_mismatch_count": 0,
+  "norm_output_max_abs_error": 0.0,
+  "scope": "actual reconstructed vendor engine enforce_eager=True, B1L13out4, captured first layer input norm, not standalone synthetic dispatch",
+  "conclusion": "Embedding input, norm weight and first input-norm output match the native reference; the full-model discrepancy occurs downstream of this boundary. Exact first differing downstream operator is not yet located."
+}

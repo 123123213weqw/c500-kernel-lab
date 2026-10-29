@@ -1,0 +1,146 @@
+[
+  {
+    "job": "001-vendor-eager",
+    "returncode": 0,
+    "reason": "exit",
+    "elapsed_s": 225.01597023010254,
+    "started_unix": 1793349112.1700752,
+    "finished_unix": 1793349337.1860452
+  },
+  {
+    "job": "002-fresh-hf-reference",
+    "returncode": 0,
+    "reason": "exit",
+    "elapsed_s": 61.004889488220215,
+    "started_unix": 1793349397.1920671,
+    "finished_unix": 1793349458.1969566
+  },
+  {
+    "job": "003-audit-eager",
+    "returncode": 0,
+    "reason": "exit",
+    "elapsed_s": 7.001228094100952,
+    "started_unix": 1793349458.1977844,
+    "finished_unix": 1793349465.1990125
+  },
+  {
+    "job": "004-micro-direct-state",
+    "returncode": 0,
+    "reason": "exit",
+    "elapsed_s": 20.002294063568115,
+    "started_unix": 1793349465.199825,
+    "finished_unix": 1793349485.202119
+  },
+  {
+    "job": "005-e2e-direct-state",
+    "returncode": 1,
+    "reason": "exit",
+    "elapsed_s": 182.01266741752625,
+    "started_unix": 1793349485.203074,
+    "finished_unix": 1793349667.2157412
+  },
+  {
+    "job": "006-native-norm-fixture",
+    "returncode": 0,
+    "reason": "exit",
+    "elapsed_s": 14.001816511154175,
+    "started_unix": 1793349667.216608,
+    "finished_unix": 1793349681.2184246
+  },
+  {
+    "job": "007-vendor-norm-probe",
+    "returncode": 1,
+    "reason": "exit",
+    "elapsed_s": 26.00262713432312,
+    "started_unix": 1793349681.219351,
+    "finished_unix": 1793349707.2219782
+  },
+  {
+    "job": "008-segmented-oracles",
+    "returncode": 0,
+    "reason": "exit",
+    "elapsed_s": 18.00216054916382,
+    "started_unix": 1793349707.222902,
+    "finished_unix": 1793349725.2250624
+  },
+  {
+    "job": "009-segmented-e2e-b48",
+    "returncode": 0,
+    "reason": "exit",
+    "elapsed_s": 458.0340950489044,
+    "started_unix": 1793349725.225977,
+    "finished_unix": 1793350183.2600718
+  },
+  {
+    "job": "010-audit-eager-clarified",
+    "returncode": 0,
+    "reason": "exit",
+    "elapsed_s": 7.001282691955566,
+    "started_unix": 1793350183.2610888,
+    "finished_unix": 1793350190.2623713
+  },
+  {
+    "job": "011-weight-sha",
+    "returncode": 0,
+    "reason": "exit",
+    "elapsed_s": 51.004284381866455,
+    "started_unix": 1793350190.2632647,
+    "finished_unix": 1793350241.2675486
+  },
+  {
+    "job": "012-norm-probe-config-context",
+    "returncode": 0,
+    "reason": "exit",
+    "elapsed_s": 26.00293469429016,
+    "started_unix": 1793350241.268578,
+    "finished_unix": 1793350267.2715123
+  },
+  {
+    "job": "013-long-graph-diagnostic",
+    "returncode": 0,
+    "reason": "exit",
+    "elapsed_s": 179.01532649993896,
+    "started_unix": 1793350267.2725415,
+    "finished_unix": 1793350446.2878673
+  },
+  {
+    "job": "014-qualified-segmented-summary",
+    "returncode": 0,
+    "reason": "exit",
+    "elapsed_s": 1.0008928775787354,
+    "started_unix": 1793350446.2889159,
+    "finished_unix": 1793350447.2898083
+  },
+  {
+    "job": "015-actual-engine-first-norm",
+    "returncode": 0,
+    "reason": "exit",
+    "elapsed_s": 113.00988411903381,
+    "started_unix": 1793350447.2907495,
+    "finished_unix": 1793350560.3006332
+  },
+  {
+    "job": "016-repeat-oracles",
+    "returncode": 0,
+    "reason": "exit",
+    "elapsed_s": 16.001920700073242,
+    "started_unix": 1793350584.307757,
+    "finished_unix": 1793350600.3096774
+  },
+  {
+    "job": "017-repeat-real-b1-detailed-rejection",
+    "returncode": 1,
+    "reason": "exit",
+    "elapsed_s": 208.01763725280762,
+    "started_unix": 1793350600.310651,
+    "finished_unix": 1793350808.328288
+  },
+  {
+    "job": "018-final-cpu-numerical-audit",
+    "returncode": 0,
+    "reason": "exit",
+    "elapsed_s": 6.001329183578491,
+    "started_unix": 1793350808.3293357,
+    "finished_unix": 1793350814.3306644
+  }
+]
