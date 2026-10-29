@@ -1,0 +1,49 @@
+{
+  "initial_real128_request_rejected": true,
+  "initial_error": "AssertionError()",
+  "initial_candidate_timed_runs": 0,
+  "initial_B8_B48": "NOT_ATTEMPTED_AFTER_B1_FAILURE",
+  "isolated_long_probe": {
+    "capture-keepTrue": {
+      "complete_ids_exact": true,
+      "all_raw_finite": true,
+      "cache_exact": {
+        "key_cache": true,
+        "value_cache": true,
+        "conv_states": true,
+        "recurrent_states": true
+      }
+    },
+    "capture-keepFalse": {
+      "complete_ids_exact": true,
+      "all_raw_finite": true,
+      "cache_exact": {
+        "key_cache": true,
+        "value_cache": true,
+        "conv_states": true,
+        "recurrent_states": true
+      }
+    },
+    "ungraphed-direct-state": {
+      "all_logits_finite": true,
+      "complete_ids_exact": true,
+      "all_raw_logits_exact": true,
+      "cache_exact": {
+        "key_cache": true,
+        "value_cache": true,
+        "conv_states": true,
+        "recurrent_states": true
+      }
+    }
+  },
+  "repeat_native_rows": 3,
+  "repeat_candidate_rows": 2,
+  "repeat_completion": null,
+  "repeat_rejection": {},
+  "production_admitted": false,
+  "reason": "Initial identical-protocol full-request equivalence failure is unresolved. Isolated diagnostic successes or a successful repeat do not erase the original negative. No robust additional speedup claim.",
+  "repeat_fatal": "AssertionError()",
+  "repeat_failed_at": "third timed candidate repetition, index2, joint complete IDs/input SHA/text equality assertion",
+  "qualified_repeats_required": 3,
+  "qualified_performance_summary": null
+}
