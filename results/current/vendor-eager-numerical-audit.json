@@ -1,0 +1,155 @@
+{
+  "CPU_only": true,
+  "fresh_same_allocation_native_reference": true,
+  "eager_options": {
+    "enforce_eager": true,
+    "async_scheduling": false
+  },
+  "rows": [
+    {
+      "batch": 1,
+      "input_len": 13,
+      "output_len": 4,
+      "input_ids_sha256": "d69271dd7e02963e5a32e5b20e225665ca3d896ad0aa57f67971e2364c101496",
+      "native_current_vs_historical_full_logits_exact": true,
+      "native_current_vs_historical_output_ids_exact": true,
+      "cache_digests_match_historical": true,
+      "candidate_ids_exact": true,
+      "candidate_exact_sequences": 1,
+      "steps": [
+        {
+          "step": 0,
+          "all_finite": true,
+          "full_vocab_exact": false,
+          "mismatch_count": 173716,
+          "same_prefix_rows": 1,
+          "same_prefix_max_abs": 0.125
+        },
+        {
+          "step": 1,
+          "all_finite": true,
+          "full_vocab_exact": false,
+          "mismatch_count": 162036,
+          "same_prefix_rows": 1,
+          "same_prefix_max_abs": 0.125
+        },
+        {
+          "step": 2,
+          "all_finite": true,
+          "full_vocab_exact": false,
+          "mismatch_count": 205674,
+          "same_prefix_rows": 1,
+          "same_prefix_max_abs": 0.25
+        },
+        {
+          "step": 3,
+          "all_finite": true,
+          "full_vocab_exact": false,
+          "mismatch_count": 141278,
+          "same_prefix_rows": 1,
+          "same_prefix_max_abs": 0.0703125
+        }
+      ],
+      "strict_gate_pass": false,
+      "logical_cache_comparison": "NOT_EVALUATED_AFTER_LOGIT_GATE_FAILURE",
+      "qualified_performance_runs": 0
+    },
+    {
+      "batch": 3,
+      "input_len": 127,
+      "output_len": 4,
+      "input_ids_sha256": "22e10ad3a0e5f321aa6ade8037d34e358c44bd10e65b79b93d047c396b1a5992",
+      "native_current_vs_historical_full_logits_exact": true,
+      "native_current_vs_historical_output_ids_exact": true,
+      "cache_digests_match_historical": true,
+      "candidate_ids_exact": true,
+      "candidate_exact_sequences": 3,
+      "steps": [
+        {
+          "step": 0,
+          "all_finite": true,
+          "full_vocab_exact": false,
+          "mismatch_count": 440077,
+          "same_prefix_rows": 3,
+          "same_prefix_max_abs": 0.09375
+        },
+        {
+          "step": 1,
+          "all_finite": true,
+          "full_vocab_exact": false,
+          "mismatch_count": 604226,
+          "same_prefix_rows": 3,
+          "same_prefix_max_abs": 0.15625
+        },
+        {
+          "step": 2,
+          "all_finite": true,
+          "full_vocab_exact": false,
+          "mismatch_count": 495709,
+          "same_prefix_rows": 3,
+          "same_prefix_max_abs": 0.177734375
+        },
+        {
+          "step": 3,
+          "all_finite": true,
+          "full_vocab_exact": false,
+          "mismatch_count": 426211,
+          "same_prefix_rows": 3,
+          "same_prefix_max_abs": 0.125
+        }
+      ],
+      "strict_gate_pass": false,
+      "logical_cache_comparison": "NOT_EVALUATED_AFTER_LOGIT_GATE_FAILURE",
+      "qualified_performance_runs": 0
+    },
+    {
+      "batch": 17,
+      "input_len": 32,
+      "output_len": 4,
+      "input_ids_sha256": "60410bb34a2a01ccdd6badb0e46e614e8b7b2b90853013662270a98f786c0bc3",
+      "native_current_vs_historical_full_logits_exact": true,
+      "native_current_vs_historical_output_ids_exact": true,
+      "cache_digests_match_historical": true,
+      "candidate_ids_exact": true,
+      "candidate_exact_sequences": 17,
+      "steps": [
+        {
+          "step": 0,
+          "all_finite": true,
+          "full_vocab_exact": false,
+          "mismatch_count": 2784272,
+          "same_prefix_rows": 17,
+          "same_prefix_max_abs": 0.125
+        },
+        {
+          "step": 1,
+          "all_finite": true,
+          "full_vocab_exact": false,
+          "mismatch_count": 3215460,
+          "same_prefix_rows": 17,
+          "same_prefix_max_abs": 1.125
+        },
+        {
+          "step": 2,
+          "all_finite": true,
+          "full_vocab_exact": false,
+          "mismatch_count": 3043572,
+          "same_prefix_rows": 17,
+          "same_prefix_max_abs": 0.34375
+        },
+        {
+          "step": 3,
+          "all_finite": true,
+          "full_vocab_exact": false,
+          "mismatch_count": 3328967,
+          "same_prefix_rows": 17,
+          "same_prefix_max_abs": 0.78125
+        }
+      ],
+      "strict_gate_pass": false,
+      "logical_cache_comparison": "NOT_EVALUATED_AFTER_LOGIT_GATE_FAILURE",
+      "qualified_performance_runs": 0
+    }
+  ],
+  "conclusion": "Mismatch persists with engine enforce_eager=True and async_scheduling=False. Individual operators may still use internal torch.compile; this does not disable all Inductor compilation. First differing operator not yet located. Different previous allocation prevents clean compiled-vs-eager causal attribution. No tolerance relaxation, no vendor speed ranking."
+}
