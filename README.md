@@ -95,8 +95,8 @@ python3 tools/qualify.py --results "$RUN_DIR/results/segmented" --candidate segm
 
 ## 当前仓库状态
 
-已建立私有 GitHub 远程：[123123213weqw/c500-kernel-lab](https://github.com/123123213weqw/c500-kernel-lab)。
+公开 GitHub 仓库：[123123213weqw/c500-kernel-lab](https://github.com/123123213weqw/c500-kernel-lab)。
 本地与授权 C500 远端的基线记录保留；冻结 tag `v0.1.0-experimental` 不移动，后续协作使用 `main`。
-未公开发布，不上传权重、SDK、凭据或含私有运行路径的原始实验归档。
+代码与去标识结果摘要已公开；不上传权重、SDK、凭据或含私有运行路径的原始实验归档。
 MIT 仅覆盖本仓库新增代码；外部组件/模型各遵其许可，见 `NOTICE`。
 完整原始日志留在独立实验归档，本仓库只收代码、去标识摘要和校验信息。
