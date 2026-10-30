@@ -22,6 +22,21 @@ CPU 分词→H2D→全量 fresh-cache prefill+decode→D2H→解码；每项 n=3
 官方0.19重建栈的短 holdout raw logits 未通过逐值完全相等门槛；
 B17 有1/17完整序列不同。没有合格的官方速度排名，不能把它记成0 token/s。
 
+## 本轮复测（2026-10-30，当前新分配设备）
+
+B48同口径原生 **119.37 → segmented 223.24 token/s，1.87×**，两侧各n=3。
+本轮硬件分配的PCI身份不同，不能用它与历史数值直接宣称又有提速。
+
+直接写状态候选：30微内核与短整模型通过，但首次真实128请求等价检查失败；
+独立长序列诊断虽通过，完整复测仍在第3次计时回放失败，仅2次候选记录。
+**未准入，不汇总新候选速度，不覆盖负结果。**
+
+官方引擎eager模式下，实际首层RMSNorm仍调用内部编译路径；但该层的输入、
+权重SHA和输出均与原生参考完全一致。完整logits分歧在此边界之后，
+具体下游首个差异算子尚未定位，不能归咎这个RMSNorm。
+
+见 `docs/RUN_2026-10-30.md` 与 `results/current/`。GPU已停止且三次空闲核验通过。
+
 ## 目录
 
 - `strategies/segmented/`：历史获胜路径的冻结 kernel + 8步分段 graph。
@@ -46,6 +61,7 @@ python3 tools/check_repository.py
 环境精确版本见 `strategies/segmented/FROZEN_CONFIG.json`；不要用普通 CUDA
 PyPI wheel 替换 MetaX wheel。仓库不提供自动改驱动、系统包、时钟或认证的脚本。
 
+先用 `tools/verify_model.py --model MODEL_DIR --manifest models/Qwen3.5-27B.sha256.json` 校验只读权重。
 每次使用新工作目录、同一未来截止时间（最长1小时）。先微内核、后整模型：
 
 ```bash
