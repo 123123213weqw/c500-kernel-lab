@@ -1,0 +1,32 @@
+[
+  {
+    "batch": 48,
+    "native_tps": 119.37450411844671,
+    "candidate_tps": 223.23635516942403,
+    "speedup": 1.8700505339726705,
+    "repeats": {
+      "native": 3,
+      "segmented": 3
+    },
+    "latency_median_s": {
+      "native": 51.46827662549913,
+      "segmented": 27.52239882852882
+    },
+    "tps_min_max": {
+      "native": [
+        119.2588924306969,
+        119.89724914369063
+      ],
+      "segmented": [
+        222.70121558472258,
+        223.31895036353117
+      ]
+    },
+    "candidate": "segmented",
+    "scope": "128->128 local request E2E, not HTTP/coldstart",
+    "peak_allocated_gib": {
+      "native": 60.787532806396484,
+      "segmented": 58.94603109359741
+    }
+  }
+]

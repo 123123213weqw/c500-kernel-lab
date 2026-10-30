@@ -137,7 +137,10 @@ try:
     warmups.append({'mode':'native','batch':b,'raw_full_vocab_finite_calls':checker.raw_calls,'complete_output_sha256':refhash,'input_sha256':inputhash,**stats})
     dump(f'warm-output-b{b}.json',{'input_ids':input_ids.tolist(),'complete_output_ids':ref.tolist(),'generated_text':decoded})
     def record(mode,rep,y,textout,stats,ci):
-     assert torch.equal(y,ref) and digest(ci)==inputhash and textout==decoded
+     if not (torch.equal(y,ref) and digest(ci)==inputhash and textout==decoded):
+      diff=(y!=ref).nonzero().tolist() if y.shape==ref.shape else []
+      dump(f'request-rejection-{mode}-b{b}-r{rep}.json',{'mode':mode,'repeat':rep,'complete_ids_exact':torch.equal(y,ref),'text_exact':textout==decoded,'input_sha_exact':digest(ci)==inputhash,'first_mismatch_coordinate':diff[0] if diff else None,'actual_ids':y.tolist(),'native_ids':ref.tolist(),'qualified_performance':False})
+      raise AssertionError('Timed request equivalence failed; rejection saved')
      assert mode=='native' or (exact_gdn.COUNTS['fallback']==0 and sum(v for k,v in exact_gdn.COUNTS.items() if k!='fallback')>0),'Candidate fallback or no fused dispatch'
      emit({'layout_counts':dict(exact_gdn.LAYOUTS),'dispatch_counts':dict(exact_gdn.COUNTS),'mode':mode,'batch':b,'repeat':rep,'input_len':128,'output_len':128,'output_tokens':b*128,'e2e_output_tokens_per_s':b*128/stats['e2e_s'],'model_only_output_tokens_per_s':b*128/stats['generate_s'],'per_request_output_tokens_per_s':128/stats['e2e_s'],'complete_output_sha256':digest(y),'input_sha256':inputhash,'all_ids_exact_vs_warmup':True,'detokenized_text_exact_vs_warmup':True,**stats})
     for rep in range(3):

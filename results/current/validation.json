@@ -1,0 +1,17 @@
+{
+  "cpu_tests": 21,
+  "gpu_jobs_serial": true,
+  "gpu_idle_audit_pass": true,
+  "all_18_jobs_before_deadline": true,
+  "checkpoint_sha_pass": true,
+  "checkpoint_files": 23,
+  "old_deliverables_integrity": {
+    "turn_snapshot_files": 2532,
+    "original_baseline_files": 70,
+    "all_unchanged": true,
+    "mismatches": []
+  },
+  "public_push": false,
+  "new_allocation_recorded_separately": true,
+  "historical_and_new_TPS_not_mixed": true
+}
