@@ -100,3 +100,10 @@ python3 tools/qualify.py --results "$RUN_DIR/results/segmented" --candidate segm
 代码与去标识结果摘要已公开；不上传权重、SDK、凭据或含私有运行路径的原始实验归档。
 MIT 仅覆盖本仓库新增代码；外部组件/模型各遵其许可，见 `NOTICE`。
 完整原始日志留在独立实验归档，本仓库只收代码、去标识摘要和校验信息。
+
+## 第二轮增量优化（B48限定）
+
+同设备/同精度/128入128出，本地端到端新融合归约 **243.33 token/s**（n=3），
+相对同轮原segmented两次复测222.96/222.69再提升约 **9.1%–9.3%**。
+默认路径不变；原生B1与一次B48自复测不一致的失败均保留，不外推其他尺寸。
+详见 [完整结果与限制](docs/OPTIMIZATION_ROUND2.md) 和 [冻结实验代码](experimental/fused_reduce_v2/README.md)。

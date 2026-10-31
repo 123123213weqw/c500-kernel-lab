@@ -1,0 +1,29 @@
+{
+  "config": {
+    "block_v": 128,
+    "warps": 4,
+    "input_state_mutation": false,
+    "native_sum_schedule": "8 row lanes;16 sequential FP32 RN additions per lane; reduction offsets4,2,1"
+  },
+  "qualified_shape": {
+    "batch": 48,
+    "input_len": 128,
+    "output_len": 128
+  },
+  "not_default": true,
+  "unsupported_layouts": "native fallback; no model throughput claims when fallback occurs",
+  "versions": {
+    "torch": "2.8.0+metax3.3.0.2",
+    "triton": "3.0.0+metax3.3.0.2",
+    "transformers": "5.3.0",
+    "accelerate": "1.15.0",
+    "huggingface_hub": "1.33.0",
+    "flash-linear-attention": "0.1+metax3.3.0.2torch2.8",
+    "flash-attn": "2.6.3+metax3.3.0.2torch2.8",
+    "causal-conv1d": "1.5.0.post8+metax3.3.0.2torch2.8"
+  },
+  "source_sha256": {
+    "exact_gdn_reduce_v2.py": "67ba636d6a5f784fa340c36912d2ff7df014bc4f8dd246de390705144faa1628",
+    "reduce_graph_engine_v2.py": "992f7f7f12d512ebfec5c1e61c4eb54210ad6bc4f231bb410c1e09d6a771a25f"
+  }
+}
