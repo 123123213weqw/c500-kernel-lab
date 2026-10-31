@@ -1,0 +1,69 @@
+{
+  "long128_gate": {
+    "reduced": {
+      "batch": 1,
+      "input_len": 128,
+      "output_len": 128,
+      "full_vocab_all128_logits_exact": true,
+      "complete_ids_exact": true,
+      "all_four_caches_exact": true,
+      "all_finite": true
+    },
+    "pointwise": {
+      "batch": 1,
+      "input_len": 128,
+      "output_len": 128,
+      "full_vocab_all128_logits_exact": true,
+      "complete_ids_exact": true,
+      "all_four_caches_exact": true,
+      "all_finite": true
+    }
+  },
+  "source_freeze": "experimental/fused_reduce_v2/FROZEN_B48.json",
+  "all_18_rows_same_complete_output": true,
+  "native_determinism_probe": [
+    {
+      "repeat": 0,
+      "ids_equal_previous_original": true,
+      "full_vocab_finite": true,
+      "scope": "native only, deterministic algorithms=True/workspace config set before CUDA; retained raw logits changes allocation pattern; not a same-protocol fix or speed measurement"
+    },
+    {
+      "repeat": 1,
+      "ids_equal_previous_original": true,
+      "full_vocab_finite": true,
+      "scope": "native only, deterministic algorithms=True/workspace config set before CUDA; retained raw logits changes allocation pattern; not a same-protocol fix or speed measurement",
+      "all_logits_exact_vs_first": true,
+      "first_differing_logit_step": null,
+      "all_four_caches_exact_vs_first": {
+        "key_cache": true,
+        "value_cache": true,
+        "conv_states": true,
+        "recurrent_states": true
+      }
+    },
+    {
+      "repeat": 2,
+      "ids_equal_previous_original": true,
+      "full_vocab_finite": true,
+      "scope": "native only, deterministic algorithms=True/workspace config set before CUDA; retained raw logits changes allocation pattern; not a same-protocol fix or speed measurement",
+      "all_logits_exact_vs_first": true,
+      "first_differing_logit_step": null,
+      "all_four_caches_exact_vs_first": {
+        "key_cache": true,
+        "value_cache": true,
+        "conv_states": true,
+        "recurrent_states": true
+      }
+    }
+  ],
+  "integrity": {
+    "older_deliverables_unchanged": 2749,
+    "original_baseline_manifest_matches": 69,
+    "original_weights_SHA_matches": 23,
+    "all24jobs_serial_and_before_deadline": true,
+    "gpu_idle": true,
+    "public_CPU_tests_both_hosts": 24
+  },
+  "timing_order_limitation": "Both frozen-path repeats precede the winning reduced candidate; not a before/after bracket of the winner, not randomized interleaving. No formal significance or universal-speedup claim."
+}

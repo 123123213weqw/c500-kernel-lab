@@ -1,0 +1,38 @@
+{
+  "negative_results": [
+    {
+      "study": "reduced_B1",
+      "stage": "native baseline, before candidate timing",
+      "batch": 1,
+      "complete_ids_exact": false,
+      "input_sha_exact": true,
+      "text_exact": false,
+      "first_mismatch_coordinate": [
+        0,
+        234
+      ],
+      "candidate_timed_rows": 0,
+      "qualified_candidate_tps": null
+    },
+    {
+      "study": "pointwise_B48",
+      "stage": "native baseline, before candidate timing",
+      "batch": 48,
+      "complete_ids_exact": false,
+      "input_sha_exact": true,
+      "text_exact": false,
+      "first_mismatch_coordinate": [
+        40,
+        221
+      ],
+      "candidate_timed_rows": 0,
+      "qualified_candidate_tps": null
+    }
+  ],
+  "B8": "NOT_ATTEMPTED",
+  "pointwise_B48": "no candidate timed rows because native gate failed",
+  "first_reduce_attempt": "4-lane assumption rejected:4380/6144 reduced elements mismatch on first standalone B1 stress; no model speed claim",
+  "loop": "all micro gates pass, B48 micro1.57344ms vs v2 1.52812ms; no whole-model timing; not TPS",
+  "direct_state": "This round B1 n3 passed; historical failures remain unresolved and production admission unchanged. Native self mismatch does not prove same root cause.",
+  "native_diagnostic_caveat": "deterministic algorithms/workspace config AND retaining raw logits both changed. No causal proof, no optimized timing under that protocol, original failures retained."
+}

@@ -1,0 +1,92 @@
+{
+  "frozen_1": {
+    "batch": 48,
+    "native_tps": 115.85620638301324,
+    "candidate_tps": 222.95781025029405,
+    "speedup": 1.9244356190397751,
+    "repeats": {
+      "native": 3,
+      "segmented": 3
+    },
+    "latency_median_s": {
+      "native": 53.03125479258597,
+      "segmented": 27.55678302142769
+    },
+    "tps_min_max": {
+      "native": [
+        115.69348877763422,
+        116.41772083614812
+      ],
+      "segmented": [
+        222.95042425897915,
+        223.00982170605639
+      ]
+    },
+    "candidate": "segmented",
+    "scope": "128->128 local request E2E, not HTTP/coldstart",
+    "peak_allocated_gib": {
+      "native": 60.787532806396484,
+      "segmented": 58.94603109359741
+    }
+  },
+  "frozen_2": {
+    "batch": 48,
+    "native_tps": 119.62689489544194,
+    "candidate_tps": 222.69269941060605,
+    "speedup": 1.8615604760555493,
+    "repeats": {
+      "native": 3,
+      "segmented": 3
+    },
+    "latency_median_s": {
+      "native": 51.35968801472336,
+      "segmented": 27.58958877529949
+    },
+    "tps_min_max": {
+      "native": [
+        118.2758946877946,
+        119.68636951640114
+      ],
+      "segmented": [
+        222.6656675668978,
+        222.7329957428889
+      ]
+    },
+    "candidate": "segmented",
+    "scope": "128->128 local request E2E, not HTTP/coldstart",
+    "peak_allocated_gib": {
+      "native": 60.787532806396484,
+      "segmented": 58.94603109359741
+    }
+  },
+  "reduced_B48": {
+    "batch": 48,
+    "native_tps": 118.138289523644,
+    "candidate_tps": 243.33471025545742,
+    "speedup": 2.059744653800467,
+    "repeats": {
+      "native": 3,
+      "fused-reduce-v2": 3
+    },
+    "latency_median_s": {
+      "native": 52.0068474393338,
+      "fused-reduce-v2": 25.249172193929553
+    },
+    "tps_min_max": {
+      "native": [
+        115.99888464487314,
+        119.08255530493842
+      ],
+      "fused-reduce-v2": [
+        243.03045088109738,
+        243.59478742359678
+      ]
+    },
+    "candidate": "fused-reduce-v2",
+    "scope": "128->128 local request E2E, not HTTP/coldstart",
+    "peak_allocated_gib": {
+      "native": 60.787532806396484,
+      "fused-reduce-v2": 58.94603109359741
+    }
+  }
+}
