@@ -14,10 +14,18 @@
 复现先设置所有隔离缓存目录、共同GPU锁及未来硬截止，校验原始checkpoint，
 保持冻结环境和单卡；不要直接运行过期控制器。用通用的有界 launcher 串行执行：
 
+共同锁必须指向部署中现有的授权GPU锁；不要用随机新锁绕过其他控制器。
+先定义同一未来硬截止 `DEADLINE` 和 `COMMON_GPU_LOCK`，例如：
+
 ```bash
-python3 benchmarks/tune_reduce_v2.py "$RUN_DIR"
-python3 benchmarks/micro_reduce_v2.py --strategy fused-reduce-v2 --workdir "$RUN_DIR"
-python3 benchmarks/e2e_reduce_v2.py --strategy fused-reduce-v2 --model "$MODEL_DIR" --workdir "$RUN_DIR" --batches 48
+mkdir -p "$RUN_DIR/results"
+bounded() {
+  python3 tools/launch_bounded.py --deadline "$DEADLINE" --workdir "$RUN_DIR" \
+    --shared-lock "$COMMON_GPU_LOCK" -- "$@"
+}
+bounded python3 benchmarks/tune_reduce_v2.py "$RUN_DIR"
+bounded python3 benchmarks/micro_reduce_v2.py --strategy fused-reduce-v2 --workdir "$RUN_DIR"
+bounded python3 benchmarks/e2e_reduce_v2.py --strategy fused-reduce-v2 --model "$MODEL_DIR" --workdir "$RUN_DIR" --batches 48
 ```
 
 搜索结果必须为冻结的BV128/W4后再比较本轮数据。benchmark内部仍强制三组短全词表/
