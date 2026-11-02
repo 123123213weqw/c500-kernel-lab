@@ -1,109 +1,121 @@
 # C500 Kernel Lab
 
-面向 **MetaX C500 / Qwen3.5-27B** 的精确计算与端到端推理实验仓库。
-不是通用推理服务器，不宣称硬件物理极限，也不宣称超过官方栈。
+[![CPU contracts](https://github.com/123123213weqw/c500-kernel-lab/actions/workflows/cpu-contracts.yml/badge.svg)](https://github.com/123123213weqw/c500-kernel-lab/actions/workflows/cpu-contracts.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-## 已有实测（历史轮次，不能和新分配设备混算）
+面向 **MetaX C500** 的大模型推理内核优化与可复现评测项目，目前聚焦 **Qwen3.5-27B 文本推理**。
+通过 Triton 内核与分段执行图减少推理开销，同时以原生 Transformers 实现作为数值参考。
 
-BF16 权重、原生 FP32 recurrent state，输入128 / 输出128，greedy、无 padding，
-CPU 分词→H2D→全量 fresh-cache prefill+decode→D2H→解码；每项 n=3 中位数：
+[快速开始](#快速开始) · [性能结果](#性能结果) · [支持范围](#支持范围) · [文档](#文档) · [参与贡献](#参与贡献)
 
-| Batch | 原生 HF token/s | segmented token/s | 同口径加速 |
-|---:|---:|---:|---:|
-| 1 | 9.37 | 16.42 | 1.75× |
-| 8 | 51.18 | 97.50 | 1.90× |
-| 48 | 112.50 | 222.80 | 1.98× |
+## 项目特点
 
-加载、编译、graph capture、首轮 warmup 不计入以上请求耗时，另行记录。
-显存峰值计入 graph pool。不是 HTTP、排队、网络或冷启动测试。
-详细数值及失败项见 `results/historical/qwen35-27b.json`。
+- **正确性优先**：检查全词表 logits、四类逻辑缓存、完整生成结果及跨请求状态重置。
+- **内核与执行图协同**：提供 Gated DeltaNet（GDN）局部融合、精确归约及固定形状分段图实验。
+- **可复现评测**：固定模型、精度、输入输出长度和 token 计数，保留至少三次同条件重复测量。
+- **透明的实验记录**：提供冻结配置、权重校验清单、CPU 契约测试，以及失败、回退和未测试项。
 
-**不能只挑涨分：** generic GDN 局部融合，B1 +21.08%，B48 **−2.78%**。
-官方0.19重建栈的短 holdout raw logits 未通过逐值完全相等门槛；
-B17 有1/17完整序列不同。没有合格的官方速度排名，不能把它记成0 token/s。
+> **项目状态：实验性。** 这是非官方研究项目，不是通用推理服务器。
+> `segmented` 是默认复现路径；新归约融合仅在已验证的 B48 测试点准入，不代表所有尺寸或软件环境均可直接使用。
 
-## 本轮复测（2026-10-30，当前新分配设备）
+## 快速开始
 
-B48同口径原生 **119.37 → segmented 223.24 token/s，1.87×**，两侧各n=3。
-本轮硬件分配的PCI身份不同，不能用它与历史数值直接宣称又有提速。
+### 获取源码与运行 CPU 测试
 
-直接写状态候选：30微内核与短整模型通过，但首次真实128请求等价检查失败；
-独立长序列诊断虽通过，完整复测仍在第3次计时回放失败，仅2次候选记录。
-**未准入，不汇总新候选速度，不覆盖负结果。**
-
-官方引擎eager模式下，实际首层RMSNorm仍调用内部编译路径；但该层的输入、
-权重SHA和输出均与原生参考完全一致。完整logits分歧在此边界之后，
-具体下游首个差异算子尚未定位，不能归咎这个RMSNorm。
-
-见 `docs/RUN_2026-10-30.md` 与 `results/current/`。GPU已停止且三次空闲核验通过。
-
-## 目录
-
-- `strategies/segmented/`：历史获胜路径的冻结 kernel + 8步分段 graph。
-- `strategies/generic/`：支持 dense permutation 的独立 GDN；不是默认全场景加速。
-- `experimental/direct_state/`：直接写最终 recurrent state，原先只有微内核验证，整模型以本轮结果为准。
-- `benchmarks/micro.py`：30组输出/状态严格 oracle，显式记录 native fallback。
-- `benchmarks/e2e.py`：固定形状端到端、完整输出校验、fresh-request A/B/A 防泄漏。
-- `tools/qualify.py`：失败关闭的准入/配对统计；不以输出ID一致替代 full-vocab/caches 检查。
-- `tools/launch_bounded.py`：单任务锁、统一截止、只终止自身启动的进程组、独立缓存。
-- `tests/`：无需 GPU 的契约与截止测试；`docs/`：复现约束、贡献路径和来源。
-
-## CPU 验收（不加载 Torch/GPU）
+在 Linux / macOS 上，CPU 测试与审计工具仅依赖 Python 标准库，无需 GPU、模型权重或 MetaX SDK。
+CI 使用 Python 3.10。
 
 ```bash
+git clone https://github.com/123123213weqw/c500-kernel-lab.git
+cd c500-kernel-lab
+
 python3 -m unittest discover -s tests -v
 python3 tools/check_repository.py
 ```
 
-## GPU 复现
+### 在 C500 上复现
 
-须在已授权且只有一张分配 C500 的环境执行。**不在本机跑 GPU/Rust 编译。**
-环境精确版本见 `strategies/segmented/FROZEN_CONFIG.json`；不要用普通 CUDA
-PyPI wheel 替换 MetaX wheel。仓库不提供自动改驱动、系统包、时钟或认证的脚本。
+GPU 实验需要预先配置已验证的 MetaX / PyTorch / Triton 环境，并自行准备模型权重。
+仓库不分发 SDK、二进制 wheel 或 checkpoint，也不提供通用的 `pip install` 部署入口。
 
-先用 `tools/verify_model.py --model MODEL_DIR --manifest models/Qwen3.5-27B.sha256.json` 校验只读权重。
-每次使用新工作目录、同一未来截止时间（最长1小时）。先微内核、后整模型：
+1. 按[环境说明](docs/ENVIRONMENTS.md)核对依赖与[冻结版本](strategies/segmented/FROZEN_CONFIG.json)。
+2. 按[复现指南](docs/REPRODUCING.md)校验权重，设置隔离目录、共同 GPU 锁和统一截止时间。
+3. 先运行微内核 oracle，再运行整模型正确性检查与端到端评测。
 
-```bash
-# 在远端仓库内，先按现有部署激活已验证的 MetaX/HF 环境。
-export MODEL_DIR=/path/to/read-only/Qwen3.5-27B
-export RUN_DIR=/path/to/new-isolated-run
-export DEADLINE_UTC=YYYY-MM-DDTHH:MM:SSZ
-python tools/launch_bounded.py --deadline "$DEADLINE_UTC" --workdir "$RUN_DIR" -- \
-  python benchmarks/micro.py --strategy segmented --workdir "$RUN_DIR"
-python tools/launch_bounded.py --deadline "$DEADLINE_UTC" --workdir "$RUN_DIR" -- \
-  python benchmarks/e2e.py --strategy segmented --model "$MODEL_DIR" --workdir "$RUN_DIR" --batches 1,8,48
+默认路径见[完整复现步骤](docs/REPRODUCING.md)；B48 新归约融合见[实验说明](experimental/fused_reduce_v2/README.md)。
+
+## 性能结果
+
+**测试条件：** 单张 C500 64 GiB，Qwen3.5-27B，BF16 权重 / 原生 FP32 recurrent state，
+batch 48，输入 128 / 输出 128，greedy、无 padding。下表为每项 **n=3 中位数**，吞吐为整个 batch 的输出 token/s。
+
+| 路径 | 输出 token/s ↑ | 整批延迟（秒）↓ | 峰值 allocated（GiB） |
+|---|---:|---:|---:|
+| 原生 HF（新候选同轮基线） | 118.14 | 52.007 | 60.79 |
+| 默认 `segmented`（复测 1） | 222.96 | 27.557 | 58.95 |
+| 默认 `segmented`（复测 2） | 222.69 | 27.590 | 58.95 |
+| **`fused_reduce_v2`（B48 实验）** | **243.33** | **25.249** | **58.95** |
+
+新候选相对其同轮原生 HF 基线为 **2.06×**，相对两轮已优化 `segmented` 复测再提升 **9.1%–9.3%**。
+原路径两轮计时均先于新候选，并非随机交错或新候选前后夹测；不据此宣称普适提升或正式统计显著性。
+
+**计时范围：** CPU 分词 → H2D → fresh-cache 全量 prefill 与生成 → D2H → 文本解码。
+不含加载、编译、graph capture、首轮 warmup 和独立正确性检查；显存峰值包含 graph pool。
+这不是 HTTP、排队、网络或冷启动测试，也不代表硬件物理绝对极限。
+
+数据来源：[结构化结果](results/round2/paired-summary.json) · [验证记录](results/round2/validation.json) · [完整分析与限制](docs/OPTIMIZATION_ROUND2.md)。
+历史轮次见[历史结果](results/historical/qwen35-27b.json)，不同硬件分配的结果不混算增益。
+
+## 支持范围
+
+| 组件 | 定位与当前边界 |
+|---|---|
+| `strategies/segmented` | 默认复现路径；冻结的 GDN 局部融合与 8 步分段图，固定形状评测 |
+| `experimental/fused_reduce_v2` | 新精确归约融合；本轮仅 B48、128 入 / 128 出通过完整请求复测 |
+| `strategies/generic` | Dense-layout GDN 研究路径；部分测试点存在性能回退 |
+| `experimental/direct_state` | 直接状态写回研究；历史完整请求等价失败尚未解决，未准入 |
+
+当前 GPU 路径使用 Linux、Python 3.10、MetaX 构建的 PyTorch 2.8 / Triton 3.0，以及 Transformers 5.3.0；
+精确版本以冻结配置为准。新的 SDK、模型、batch、上下文、padding、多模态、多卡或并发请求均需重新验证。
+
+**已知限制：** 已记录原生基线自身复测不一致的情况；B1 新候选没有合格端到端成绩，B8 未进行本轮完整请求测试。
+失败、回退和未测试项不会记为 0 token/s，也不会因短测试通过而覆盖完整请求失败。
+官方重建栈未通过相同数值准入，因此不提供与其的速度排名。详见[负结果记录](results/round2/negative-results.json)及[正确性协议](docs/CORRECTNESS.md)。
+
+## 仓库结构
+
+```text
+benchmarks/      微内核、配置搜索与端到端评测入口
+strategies/      已冻结的复现路径与独立研究实现
+experimental/   尚有限定适用范围或未准入的候选
+diagnostics/   原生参考与数值分歧诊断
+tools/         截止控制、结果准入、权重校验与源码审计
+tests/         无 GPU 依赖的契约测试
+docs/          环境、复现、正确性与实验分析
+results/       去标识的结构化结果和负结果摘要
+models/        权重校验清单，不包含模型权重
 ```
 
-存在其他控制器时，须给 launcher 添加其共同锁 `--shared-lock /path/to/shared.lock`；
-不得绕过锁并发争用 GPU。launcher 的 workdir controller lock 与 worker GPU lock 分离。
-已经在独立有截止控制器下运行时，不再嵌套获取同一共同锁。
+## 文档
 
-`direct-state` 替换上述两处 `--strategy` 即可测试实验路径。
-两个策略必须使用**不同全新进程**；不得在同一解释器热切换 `exact_gdn`。
-新硬件/新软件版本、padding、长上下文、多模态、并发请求等均需重新验证；
-不能从本矩阵外推。退出后须另行核验自身进程退出和 GPU 空闲。
+| 文档 | 内容 |
+|---|---|
+| [复现指南](docs/REPRODUCING.md) | 默认路径的准备、执行、结果汇总与退出检查 |
+| [环境说明](docs/ENVIRONMENTS.md) | 已验证依赖及不同数值实现的边界 |
+| [正确性协议](docs/CORRECTNESS.md) | Logits、缓存、完整生成与准入要求 |
+| [最新优化分析](docs/OPTIMIZATION_ROUND2.md) | B48 增量优化、性能范围与完整负结果 |
+| [早期实验记录](docs/RUN_2026-10-30.md) | 首轮复测及尚未解决的问题 |
+| [贡献指南](docs/CONTRIBUTING.md) | 可贡献方向、测试要求与提交边界 |
 
-CPU 汇总（只在完整通过准入后产生配对统计）：
+## 参与贡献
 
-```bash
-python3 tools/qualify.py --results "$RUN_DIR/results/segmented" --candidate segmented --output "$RUN_DIR/paired-summary.json"
-```
+欢迎通过 [Issues](https://github.com/123123213weqw/c500-kernel-lab/issues) 报告问题，或通过 Pull Request 提交改进。
+建议优先从权重无关的最小复现、布局与缓存 oracle、数值分歧定位、评测工具和文档入手。
 
-计数器是 Python warmup/capture 的累计调用计数，不是每次 CUDA graph 重放的 host 调用计数。
-汇总还要求本次 graph setup 后计数相对本 batch 的 native 末轮确有增长，排除陈旧计数冒充生效。
+新增优化应附适用形状、stride、dtype、回退条件、正确性结果，以及至少三次同口径端到端复测。
+只通过微内核测试的实现仍应保留为实验项。提交前请阅读[贡献指南](docs/CONTRIBUTING.md)，并运行上面的 CPU 测试与审计命令。
 
-## 当前仓库状态
+## 许可证
 
-公开 GitHub 仓库：[123123213weqw/c500-kernel-lab](https://github.com/123123213weqw/c500-kernel-lab)。
-本地与授权 C500 远端的基线记录保留；冻结 tag `v0.1.0-experimental` 不移动，后续协作使用 `main`。
-代码与去标识结果摘要已公开；不上传权重、SDK、凭据或含私有运行路径的原始实验归档。
-MIT 仅覆盖本仓库新增代码；外部组件/模型各遵其许可，见 `NOTICE`。
-完整原始日志留在独立实验归档，本仓库只收代码、去标识摘要和校验信息。
-
-## 第二轮增量优化（B48限定）
-
-同设备/同精度/128入128出，本地端到端新融合归约 **243.33 token/s**（n=3），
-相对同轮原segmented两次复测222.96/222.69再提升约 **9.1%–9.3%**。
-默认路径不变；原生B1与一次B48自复测不一致的失败均保留，不外推其他尺寸。
-详见 [完整结果与限制](docs/OPTIMIZATION_ROUND2.md) 和 [冻结实验代码](experimental/fused_reduce_v2/README.md)。
+本仓库新增代码使用 [MIT License](LICENSE)。模型、SDK 及第三方组件分别遵循其自身许可证；
+本项目的 MIT 许可不替代或重新授权这些外部组件。详见 [NOTICE](NOTICE)。
