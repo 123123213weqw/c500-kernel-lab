@@ -1,0 +1,52 @@
+{
+  "date": "2026-11-27",
+  "device": "MetaX C500",
+  "gpu_count": 1,
+  "advertised_memory_gib": 64,
+  "runtime": {
+    "maca_sdk_version_parts": [
+      3,
+      8,
+      4,
+      9
+    ],
+    "driver": "3.9.35",
+    "torch": "2.10.0",
+    "torch_metax_build_version_parts": [
+      3,
+      8,
+      4,
+      1
+    ],
+    "triton": "3.6.0",
+    "transformers": "5.17.0",
+    "vllm": "0.28.0",
+    "vllm_metax": "0.28.0",
+    "vllm_metax_wheel_build_commit": "666b8f",
+    "mcoplib": "0.4.13",
+    "mcoplib_build_commit": "cdc10b7"
+  },
+  "model": {
+    "name": "Qwen/Qwen3.8-27B",
+    "checkpoint_revision": "6e218df9c23850fe143662112737b1fcb62ee880",
+    "dtype": "BF16",
+    "checkpoint_sha256_verified": true
+  },
+  "issue_implementation": {
+    "repository": "https://www.gitlink.org.cn/JunkaiShi/c500-specpilot",
+    "revision": "693c478b3b436a9676a210b38477e466067fb744"
+  },
+  "drafts": [
+    {
+      "model": "z-lab/Qwen3.8-27B-DFlash2",
+      "modelscope_revision": "0bdb977468fa6579f3f2b98ee306e1ba670ef440",
+      "weights_sha256": "67fc76d68dc5a9415511a4f394ef744d67510cd20e93b37cc2cc7d28e4bab65c"
+    },
+    {
+      "model": "RadixArk/Qwen3.8-27B-DSpark",
+      "modelscope_revision": "b4a27a480040d7aae73a928f987ec551f6c4c2d8",
+      "weights_sha256": "2aff025f45823b40ebe726b9dfa40302f3512bd9a11c3a7347de32a567acd9a7"
+    }
+  ],
+  "public_data": "Run summaries only. No prompt text, raw logs, per-request IDs, arbitrary paths or opaque archives."
+}
