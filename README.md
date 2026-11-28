@@ -66,6 +66,8 @@ batch 48，输入 128 / 输出 128，greedy、无 padding。下表为每项 **n=
 数据来源：[结构化结果](results/round2/paired-summary.json) · [验证记录](results/round2/validation.json) · [完整分析与限制](docs/OPTIMIZATION_ROUND2.md)。
 历史轮次见[历史结果](results/historical/qwen35-27b.json)，不同硬件分配的结果不混算增益。
 
+另见 [Qwen3.8-27B 单卡同机实验归档](results/2026-11-27-qwen38-c500/README.md)：自有 BF16 与 Issue #86 的独立引擎和 vLLM 对照分别统计，不改上面的 Qwen3.5-27B 基准。
+
 ## 支持范围
 
 | 组件 | 定位与当前边界 |

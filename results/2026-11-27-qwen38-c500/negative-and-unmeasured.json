@@ -1,0 +1,68 @@
+{
+  "own": [
+    {
+      "case": "B72 fixed short decode",
+      "status": "gpu_out_of_memory_in_scout"
+    },
+    {
+      "case": "B66, B68, B80 fixed decode",
+      "status": "unattempted"
+    },
+    {
+      "case": "B56/B64 no-copy decode graph",
+      "status": "gpu_out_of_memory_during_capture"
+    },
+    {
+      "case": "B64 no-copy eager",
+      "status": "gpu_out_of_memory"
+    },
+    {
+      "case": "B48 original decode graph comparison",
+      "status": "stopped_no_performance_sample"
+    },
+    {
+      "case": "old fused recurrence vs current FLA",
+      "status": "not_bit_exact_at_B1_B8_B48_B64"
+    },
+    {
+      "case": "MTP prototype",
+      "status": "failed_full_logits_and_cache_gate"
+    },
+    {
+      "case": "original Transformers checkpoint loader",
+      "status": "host_memory_limit_while_loading"
+    }
+  ],
+  "issue": [
+    {
+      "case": "cold vLLM BF16 AR first startup",
+      "status": "hit_340s_ready_deadline",
+      "retest": "passed_with_reused_compile_cache"
+    },
+    {
+      "case": "vLLM stock BF16 DFlash2, utilization .92, k7",
+      "status": "kv_budget_negative",
+      "available_kv_gib": -0.76,
+      "retest": "passed_after_changing_budget_and_profile"
+    },
+    {
+      "case": "vLLM stock BF16 DFlash2, utilization .96, k7, 512 batched tokens",
+      "available_kv_gib": 1.88,
+      "status": "measured_c1_and_c4_only"
+    },
+    {
+      "case": "vLLM W12 v3+DFlash2, utilization .92, k11, 1536 batched tokens",
+      "weight_codec_saved_gib": 11.86,
+      "available_kv_gib": 12.73,
+      "status": "measured_c1_c4_c8_c16"
+    },
+    {
+      "case": "independent speculative engine",
+      "status": "not_bit_exact_vs_same_engine_AR"
+    },
+    {
+      "case": "W12 v2 and older prototypes",
+      "status": "v2_micro_only_no_end_to_end"
+    }
+  ]
+}
