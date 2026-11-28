@@ -30,3 +30,5 @@
 3. **C500 矩阵和访存特性**：优先测 MetaX MCTLASS W8A8 的大投影在实际 token 行数 M=16/32/64 的收益，同时计激活量化与误差；不要按并发数直接挑 GEMM 的 M。平行探索更少的目标验证状态复制、稳定形状 Graph 分桶。MetaX [mcTriton 指南](https://developer.metax-tech.com/api/client/document/preview/367/C500_mcTritonUserGuide_CN.html)、[MXMACA Runtime 流与图](https://developer.metax-tech.com/api/client/document/preview/567/C500_RuntimeAPIProgrammingGuide_CN.html) 和 [vLLM 动态 K](https://docs.vllm.ai/en/latest/features/speculative_decoding/dynamic_speculative_decoding/) 只是路线依据，不是本机已验证的性能。
 
 见 [本机筛选和 MCTLASS 诊断](OBSERVATIONS.md) · [机器可读摘要](observations.json)。
+
+变长、变序的到达回放见 [open-loop 方法与观测](OPEN_LOOP.md)。
